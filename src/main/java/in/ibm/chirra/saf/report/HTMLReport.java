@@ -15,11 +15,11 @@ import java.io.File;
 
 public class HTMLReport {
 
-    static String projectFolderPath = System.getProperty("user.dir");
+    String projectFolderPath = System.getProperty("user.dir");
     static ExtentReports extent = null;
-    static ExtentTest test = null;
+    ExtentTest test = null;
 
-    public static String takeScreenshot(WebDriver driver) {
+    public String takeScreenshot(WebDriver driver) {
         try {
             String format = "png";
             String imageFilePath = DriverSetup.htmlReport_resultsFolderPath + "/Screenshots/Image_" + System.currentTimeMillis() + "." + format;
@@ -33,14 +33,17 @@ public class HTMLReport {
         }
         return "";
     }
-    public static void addTestCaseToReport(String testCaseName, String testCaseDescription) {
-      
+    
+    public static void createExtentReport() {
     	if (extent == null) {
             extent = new ExtentReports(DriverSetup.htmlReport_resultsFolderPath+"/CSR_SAF_RESULTS.html", true);
         }
+    }
+    
+    public void addTestCaseToReport(String testCaseName, String testCaseDescription) {
         test = extent.startTest(testCaseName, testCaseDescription);
     }
-    public static void addTestStepToReport(String status, String stepName, String description) {
+    public void addTestStepToReport(String status, String stepName, String description) {
         try {
             if (status.equalsIgnoreCase("PASS")) {
                 test.log(LogStatus.PASS, stepName, description);
@@ -56,7 +59,7 @@ public class HTMLReport {
         } catch (Exception e) {
         }
     }
-    public static void addTestStepToReportWithScreenShot(WebDriver driver, String status, String stepName, String description) {
+    public void addTestStepToReportWithScreenShot(WebDriver driver, String status, String stepName, String description) {
         try {
             if (status.equalsIgnoreCase("PASS")) {
                 test.log(LogStatus.PASS, stepName, description + " : " + test.addScreenCapture(takeScreenshot(driver)));
@@ -72,7 +75,7 @@ public class HTMLReport {
         } catch (Exception e) {
         }
     }
-    public static void saveReport() {
+    public void saveReport() {
         try {
             extent.endTest(test);
             extent.flush();

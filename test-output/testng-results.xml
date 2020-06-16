@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Suite" duration-ms="16574" started-at="2020-06-16T08:45:00Z" finished-at="2020-06-16T08:45:17Z">
+    <groups>
+    </groups>
+    <test name="TC002" duration-ms="15624" started-at="2020-06-16T08:45:00Z" finished-at="2020-06-16T08:45:16Z">
+      <class name="in.ibm.chirra.saf.test.Test_2">
+        <test-method status="PASS" signature="beforeSuiteTestAnnExecuted()[pri:0, instance:in.ibm.chirra.saf.test.Test_2@1283bb96]" name="beforeSuiteTestAnnExecuted" is-config="true" duration-ms="425" started-at="2020-06-16T14:15:00Z" finished-at="2020-06-16T14:15:00Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeSuiteTestAnnExecuted -->
+        <test-method status="PASS" signature="beforeClassTestAnnLoad(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:in.ibm.chirra.saf.test.Test_2@1283bb96]" name="beforeClassTestAnnLoad" is-config="true" duration-ms="11263" started-at="2020-06-16T14:15:00Z" finished-at="2020-06-16T14:15:12Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[Test_2]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[TC002]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[Chrome]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClassTestAnnLoad -->
+        <test-method status="PASS" signature="sampleTest1()[pri:0, instance:in.ibm.chirra.saf.test.Test_2@1283bb96]" name="sampleTest1" duration-ms="18" started-at="2020-06-16T14:15:12Z" finished-at="2020-06-16T14:15:12Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- sampleTest1 -->
+        <test-method status="PASS" signature="afterClassTestAnnLoad()[pri:0, instance:in.ibm.chirra.saf.test.Test_2@1283bb96]" name="afterClassTestAnnLoad" is-config="true" duration-ms="4324" started-at="2020-06-16T14:15:12Z" finished-at="2020-06-16T14:15:16Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterClassTestAnnLoad -->
+      </class> <!-- in.ibm.chirra.saf.test.Test_2 -->
+    </test> <!-- TC002 -->
+    <test name="TC001" duration-ms="16574" started-at="2020-06-16T08:45:00Z" finished-at="2020-06-16T08:45:17Z">
+      <class name="in.ibm.chirra.saf.test.Test_1">
+        <test-method status="PASS" signature="beforeClassTestAnnLoad(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:in.ibm.chirra.saf.test.Test_1@6adbc9d]" name="beforeClassTestAnnLoad" is-config="true" duration-ms="11522" started-at="2020-06-16T14:15:00Z" finished-at="2020-06-16T14:15:12Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[Test_1]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA[TC001]]>
+              </value>
+            </param>
+            <param index="2">
+              <value>
+                <![CDATA[Chrome]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- beforeClassTestAnnLoad -->
+        <test-method status="PASS" signature="sampleTest1()[pri:0, instance:in.ibm.chirra.saf.test.Test_1@6adbc9d]" name="sampleTest1" duration-ms="911" started-at="2020-06-16T14:15:12Z" finished-at="2020-06-16T14:15:13Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- sampleTest1 -->
+        <test-method status="PASS" signature="afterClassTestAnnLoad()[pri:0, instance:in.ibm.chirra.saf.test.Test_1@6adbc9d]" name="afterClassTestAnnLoad" is-config="true" duration-ms="4130" started-at="2020-06-16T14:15:13Z" finished-at="2020-06-16T14:15:17Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterClassTestAnnLoad -->
+      </class> <!-- in.ibm.chirra.saf.test.Test_1 -->
+    </test> <!-- TC001 -->
+  </suite> <!-- Suite -->
+</testng-results>

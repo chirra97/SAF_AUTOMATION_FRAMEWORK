@@ -1,11 +1,9 @@
-package in.ibm.chirra.saf.testNGXMLSetup;
+package in.ibm.chirra.saf.FWSetup;
 
 import org.testng.TestNG;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import in.ibm.chirra.saf.utilities.FW_Constants;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -19,9 +17,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CreateAndRunCustomTestNGXML {
+public class FW_DataLoad {
 
-	private static Element addTestAndClass(Document doc, Element parentElement, String className, String TCID, String browser) {
+	private Element addTestAndClass(Document doc, Element parentElement, String className, String TCID,
+			String browser) {
 
 		// Test
 		Element test1 = doc.createElement("test");
@@ -42,7 +41,7 @@ public class CreateAndRunCustomTestNGXML {
 		attr = doc.createAttribute("value");
 		attr.setValue(TCID);
 		parameter.setAttributeNode(attr);
-		
+
 		// Parameter 2
 		parameter = doc.createElement("parameter");
 		test1.appendChild(parameter);
@@ -54,7 +53,7 @@ public class CreateAndRunCustomTestNGXML {
 		attr = doc.createAttribute("value");
 		attr.setValue(browser);
 		parameter.setAttributeNode(attr);
-		
+
 		// Parameter 3
 		parameter = doc.createElement("parameter");
 		test1.appendChild(parameter);
@@ -81,7 +80,7 @@ public class CreateAndRunCustomTestNGXML {
 		return parentElement;
 	}
 
-	public static void generateCustomExeTestNGXMLFIle(ArrayList<String> exeData) {
+	private void generateCustomExeTestNGXMLFIle(ArrayList<String> exeData) {
 
 		Document doc = null;
 		try {
@@ -99,7 +98,7 @@ public class CreateAndRunCustomTestNGXML {
 		Attr attr = null;
 		if (FW_Constants.isParallelExecution.equalsIgnoreCase("yes")) {
 			attr = doc.createAttribute("parallel");
-			attr.setValue("classes");
+			attr.setValue("tests");
 			rootElement.setAttributeNode(attr);
 
 			String threadCount = FW_Constants.parallelExecutionCount.toString();
@@ -114,8 +113,7 @@ public class CreateAndRunCustomTestNGXML {
 		for (String row : exeData) {
 			String[] xmlParameters = row.split("###");
 			rootElement = addTestAndClass(doc, rootElement, xmlParameters[0].toString().trim(),
-					xmlParameters[1].toString().trim(),
-					xmlParameters[2].toString().trim());
+					xmlParameters[1].toString().trim(), xmlParameters[2].toString().trim());
 		}
 
 		try {
@@ -135,30 +133,31 @@ public class CreateAndRunCustomTestNGXML {
 		}
 	}
 
-	public static void runTestNGXML() {
+	private static void runTestNGXML() {
 		TestNG runner = new TestNG();
 		List<String> suitefiles = new ArrayList<String>();
 		suitefiles.add(System.getProperty("exeTestNGXML"));
+		//suitefiles.add("TestNG_1592291551580.xml");
 		runner.setTestSuites(suitefiles);
 		runner.run();
 	}
 
-	public static void main(String[] args) {
-		
-		//Load config file data
+	public void fw_executeMethod() {
+
+		// Load config file data
 		FW_Constants.lodConfigSheetInfo();
-		
-		//Load ALL Test Data sheets data
+
+		// Load ALL Test Data sheets data
 		FW_Constants.loadTestDataSheetsData();
-		
+
 		ArrayList<String> exeData = new ArrayList<String>();
-		for(String key : FW_Constants.testDataSheet_data_LHM_LHM.keySet()) {
+		for (String key : FW_Constants.testDataSheet_data_LHM_LHM.keySet()) {
 			exeData.add(key);
 		}
-		
-		//Create CUSTOME testNG.xml
+
+		// Create CUSTOME testNG.xml
 		generateCustomExeTestNGXMLFIle(exeData);
-			
+
 		// Run CustomTextNG.XML
 		runTestNGXML();
 	}
