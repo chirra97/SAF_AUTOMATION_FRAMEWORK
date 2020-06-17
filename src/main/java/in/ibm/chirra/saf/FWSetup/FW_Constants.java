@@ -37,7 +37,11 @@ public class FW_Constants {
 		maxWaitTimeForElement = Integer.parseInt(configFileData_LHM.get("Element_Max_Wait_Time"));
 		isParallelExecution = configFileData_LHM.get("Is_Parallel_Execution");
 		parallelExecutionCount= configFileData_LHM.get("Parallel_Execution_Count");
-		testDataSheetNames= configFileData_LHM.get("Test_Data_Sheet_Names");
+		
+		//testDataSheetNames= configFileData_LHM.get("Test_Data_Sheet_Names");
+		testDataSheetNames = ExcelWork.getAllSheetNames(TESTDATAFILEPATH);
+		
+		System.out.println("testDataSheetNames : "+testDataSheetNames);
 			
 		System.out.println("configFileData_LHM : "+configFileData_LHM);
 	}

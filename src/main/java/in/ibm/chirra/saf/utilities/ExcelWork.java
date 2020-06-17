@@ -3,6 +3,8 @@ package in.ibm.chirra.saf.utilities;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import in.ibm.chirra.saf.FWSetup.FW_Constants;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -222,7 +224,25 @@ public class ExcelWork {
 		}
 		return excelFileData_lhm;
 	}
-	
+
+	public static String getAllSheetNames(String excelFilePath) {
+		FileInputStream fis;
+		Workbook fis_workbook = null;
+		try {
+			fis = new FileInputStream(new File(excelFilePath));
+			fis_workbook = new XSSFWorkbook(fis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		String sheetNames = "";
+		for (int i = 0; i < fis_workbook.getNumberOfSheets(); i++) {
+			sheetNames = sheetNames + "," + fis_workbook.getSheetName(i);
+		}
+		sheetNames = sheetNames.replaceFirst(",", "");
+		return sheetNames;
+	}
+
 	public static LinkedHashMap<String, LinkedHashMap<String, String>> getTestDataSheetDataIntoLHM(String excelFilePath,
 			String sheetName) {
 		FileInputStream fis;
@@ -248,10 +268,10 @@ public class ExcelWork {
 				String columnName = fis_worksheet.getRow(0).getCell(j).toString();
 				String columnValue = fis_worksheet.getRow(i).getCell(j).toString();
 				rowData_lhm.put(columnName, columnValue);
-				
-				if(columnName.equalsIgnoreCase("ExecutionStatus")) {
+
+				if (columnName.equalsIgnoreCase("ExecutionStatus")) {
 					exeStatus = columnValue;
-					if(exeStatus.equalsIgnoreCase("N"))
+					if (exeStatus.equalsIgnoreCase("N"))
 						break;
 				}
 			}
@@ -262,7 +282,8 @@ public class ExcelWork {
 		return excelFileData_lhm;
 	}
 
-	public static LinkedHashMap<String, String> getConfigFileData(String excelFilePath, String sheetName) throws IOException {
+	public static LinkedHashMap<String, String> getConfigFileData(String excelFilePath, String sheetName)
+			throws IOException {
 		FileInputStream fis = null;
 		Workbook fis_workbook;
 		Sheet fis_worksheet = null;
@@ -275,7 +296,7 @@ public class ExcelWork {
 		}
 
 		int numberOfRows = fis_worksheet.getLastRowNum();
-		System.out.println("numberOfRows : "+numberOfRows);
+		System.out.println("numberOfRows : " + numberOfRows);
 		LinkedHashMap<String, String> excelFileData_lhm = new LinkedHashMap<String, String>();
 		Cell fis_cell = null;
 		for (int i = 0; i <= numberOfRows; i++) {
@@ -297,8 +318,9 @@ public class ExcelWork {
 		return excelFileData_lhm;
 	}
 
-	public static LinkedHashMap<String, LinkedHashMap<String, String>> generateUniqueKeyValueLHM(LinkedHashMap<String, LinkedHashMap<String, String>> excelFileData_lhm,
-			ArrayList<String> uniqueKeyAL, String delimiter) {
+	public static LinkedHashMap<String, LinkedHashMap<String, String>> generateUniqueKeyValueLHM(
+			LinkedHashMap<String, LinkedHashMap<String, String>> excelFileData_lhm, ArrayList<String> uniqueKeyAL,
+			String delimiter) {
 		LinkedHashMap<String, LinkedHashMap<String, String>> excelFileDataKeyValLHM = new LinkedHashMap<String, LinkedHashMap<String, String>>();
 		for (String outerKey : excelFileData_lhm.keySet()) {
 			LinkedHashMap<String, String> rowDataLHM = new LinkedHashMap<String, String>();

@@ -3,7 +3,7 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]" parallel="none">
   <test verbose="2" name="Default test">
     <classes>
-      <class name="in.ibm.chirra.saf.test.Test_1"/>
+      <class name="in.ibm.chirra.saf.FWSetup.FW_Eecute_testNG"/>
     </classes>
   </test> <!-- Default test -->
 </suite> <!-- Failed suite [Default suite] -->

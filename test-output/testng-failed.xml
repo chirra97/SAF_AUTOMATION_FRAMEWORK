@@ -1,23 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite thread-count="2" name="Failed suite [Suite]" parallel="tests">
-  <parameter name="BROWSER" value="Chrome"/>
-  <parameter name="TC_ID" value="TC002"/>
-  <parameter name="CLASSNAME" value="Test_2"/>
-  <test name="TC001">
-    <parameter name="BROWSER" value="Chrome"/>
-    <parameter name="TC_ID" value="TC001"/>
-    <parameter name="CLASSNAME" value="Test_1"/>
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]" parallel="none">
+  <test verbose="2" name="Default test">
     <classes>
-      <class name="in.ibm.chirra.saf.test.Test_1"/>
+      <class name="in.ibm.chirra.saf.FWSetup.FW_Eecute_testNG"/>
     </classes>
-  </test> <!-- TC001 -->
-  <test name="TC002">
-    <parameter name="BROWSER" value="Chrome"/>
-    <parameter name="TC_ID" value="TC002"/>
-    <parameter name="CLASSNAME" value="Test_2"/>
-    <classes>
-      <class name="in.ibm.chirra.saf.test.Test_2"/>
-    </classes>
-  </test> <!-- TC002 -->
-</suite> <!-- Failed suite [Suite] -->
+  </test> <!-- Default test -->
+</suite> <!-- Failed suite [Default suite] -->
