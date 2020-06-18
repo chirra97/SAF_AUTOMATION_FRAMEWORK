@@ -2,6 +2,7 @@ package in.ibm.chirra.saf.elementActions;
 
 import java.util.LinkedHashMap;
 
+import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -24,12 +25,14 @@ public class ElementActions {
 	LinkedHashMap<String, String> classTestData = null;
 	HTMLReport htmlReportObj = null;
 	String logFilePath = null;
+	Logger log4jObj = null;
 	
-	public ElementActions(WebDriver driver, LinkedHashMap<String, String> classTestData, HTMLReport htmlReportObj, String logFilePath) {
+	public ElementActions(WebDriver driver, LinkedHashMap<String, String> classTestData, 
+			HTMLReport htmlReportObj, Logger log4jObj) {
 		this.driver = driver;
 		this.classTestData = classTestData;
 		this.htmlReportObj = htmlReportObj;
-		this.logFilePath = logFilePath;
+		this.log4jObj = log4jObj;
 	}
 
 	public boolean dynamicWaitForElementVisible(By locater, int waitTimeInSeconds) {
@@ -147,14 +150,14 @@ public class ElementActions {
 					"Enter text " + testData + " into element " + elementName,
 					"Text " + testData + " entered into element " + elementName);
 			removeHighlightElement(element);
-			LogFile.info(logFilePath, "Text " + testData + " entered into element " + elementName);
+			log4jObj.debug("Text " + testData + " entered into element " + elementName);
 		} catch (Exception e) {
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL",
 					"Enter text " + testData + " into element " + elementName,
 					"Unable to enter Text " + testData + " entered into element " + elementName);
 			e.printStackTrace();
-			LogFile.info(logFilePath,"Unable to enter Text " + testData + " entered into element " + elementName);
-			LogFile.info(logFilePath, ""+e.getMessage());
+			log4jObj.info("Unable to enter Text " + testData + " entered into element " + elementName);
+			log4jObj.info(""+e.getMessage());
 		}
 	}
 

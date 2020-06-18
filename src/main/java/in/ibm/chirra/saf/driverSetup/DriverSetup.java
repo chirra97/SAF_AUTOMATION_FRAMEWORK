@@ -4,6 +4,12 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.log4j.Appender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.Layout;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
+import org.apache.log4j.SimpleLayout;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
@@ -51,9 +57,10 @@ public class DriverSetup {
 	public LinkedHashMap<String, String> classTestData_LHM = null;
 	public HTMLReport htmlReportObj = null;
 	public String logFilePath = null;
+	public Logger log4jObj = null;
 	@Parameters({ "CLASSNAME", "TC_ID", "BROWSER" })
 	@BeforeClass
-	public void beforeClassTestAnnLoad(String CLASSNAME, String TC_ID, String BROWSER) {
+	public void beforeClassTestAnnLoad(String CLASSNAME, String TC_ID, String BROWSER) throws IOException {
 		
 		String driverType = FW_Constants.driverType;
 		System.out.println("CLASSNAME : " + CLASSNAME);
@@ -68,6 +75,11 @@ public class DriverSetup {
 		logFilePath = htmlReport_resultsFolderPath+"/"+TC_ID+".log";
 		LogFile logFileObj = new LogFile();
 		logFileObj.createFile(logFilePath);
+		
+		log4jObj = Logger.getLogger(TC_ID);
+		Layout layoutObj = new PatternLayout("%d %m %n");
+		Appender appenderObj = new FileAppender(layoutObj, logFilePath);
+		log4jObj.addAppender(appenderObj);
 		
 		loadDriver(driverType, BROWSER, TC_ID, htmlReportObj);
 	}

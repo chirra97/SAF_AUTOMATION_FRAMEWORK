@@ -12,7 +12,7 @@ public class Test_1 extends DriverSetup{
 	public void sampleTest1() {
 		System.out.println("Test_1 - sampleTest1");
 		
-		TC001_BL blObj = new TC001_BL(driver, classTestData_LHM, htmlReportObj, logFilePath);
+		TC001_BL blObj = new TC001_BL(driver, classTestData_LHM, htmlReportObj, log4jObj);
 		blObj.login();
 	}
 
