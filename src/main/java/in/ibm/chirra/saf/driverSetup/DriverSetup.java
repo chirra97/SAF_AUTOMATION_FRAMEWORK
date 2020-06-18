@@ -72,7 +72,6 @@ public class DriverSetup {
 		htmlReportObj = new HTMLReport();
 		
 		logFilePath = htmlReport_resultsFolderPath+"/"+TC_ID+".log";
-		
 		log4jObj = Logger.getLogger(TC_ID);
 		Layout layoutObj = new PatternLayout("%d %m %n");
 		Appender appenderObj = new FileAppender(layoutObj, logFilePath);
