@@ -13,22 +13,25 @@ public class TC001_BL {
 	WebDriver driver = null;
 	LinkedHashMap<String, String> classTestData = null;
 	HTMLReport htmlReportObj = null;
+	String logFilePath = null;
 	
-	ElementActions actObj = new ElementActions();
+	ElementActions actObj = null;
 	LoginPage loginpageObj = new LoginPage();
 	
 
-	public TC001_BL(WebDriver driver, LinkedHashMap<String, String> classTestData, HTMLReport htmlReportObj) {
+	public TC001_BL(WebDriver driver, LinkedHashMap<String, String> classTestData, HTMLReport htmlReportObj, String logFilePath) {
 		this.driver = driver;
 		this.classTestData = classTestData;
 		this.htmlReportObj = htmlReportObj;
+		this.logFilePath = logFilePath;
+		actObj = new ElementActions(driver, classTestData, htmlReportObj, logFilePath);
 	}
 
 	
 	public void login() {
-		actObj.enterText(driver, loginpageObj.mobileNumber, classTestData.get("UID"), "User ID", htmlReportObj);
-		actObj.enterText(driver, loginpageObj.password, classTestData.get("UID"), "User ID", htmlReportObj);
-		actObj.clickElement(driver, loginpageObj.submit, "Submit", htmlReportObj);
+		actObj.enterText(loginpageObj.mobileNumber, classTestData.get("UID"), "User ID");
+		actObj.enterText(loginpageObj.password, classTestData.get("PWD"), "Password");
+		actObj.clickElement(loginpageObj.submit, "Submit");
 	}
 	
 	

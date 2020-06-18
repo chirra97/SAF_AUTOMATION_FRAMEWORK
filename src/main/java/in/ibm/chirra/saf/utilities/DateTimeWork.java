@@ -7,16 +7,16 @@ import java.util.Date;
 
 public class DateTimeWork {
 
-    public final String dateTimeFormat_1 = "dd/MM/yyyy HH:mm:ss";
-    public final String dateTimeFormat_2 = "MM/dd/yyyy HH:mm:ss";
-    public final String dateTimeFormat_3 = "yyyy/MM/dd HH:mm:ss";
-    public final String dateTimeFormat_4 = "yyyy_MM_dd_HH_mm_ss";
-    public final String dateFormat_1 = "dd/MM/yyyy";
-    public final String dateFormat_2 = "MM/dd/yyyy";
-    public final String dateFormat_3 = "yyyy/MM/dd";
-    public final String dateFormat_4 = "yyyy_MM_dd";
-    public final String timeFormat_1 = "HH:mm:ss";
-    public final String timeFormat_2 = "HH_mm_ss";
+    public final static String dateTimeFormat_1 = "dd/MM/yyyy HH:mm:ss";
+    public final static String dateTimeFormat_2 = "MM/dd/yyyy HH:mm:ss";
+    public final static String dateTimeFormat_3 = "yyyy/MM/dd HH:mm:ss";
+    public final static String dateTimeFormat_4 = "yyyy_MM_dd_HH_mm_ss";
+    public final static String dateFormat_1 = "dd/MM/yyyy";
+    public final static String dateFormat_2 = "MM/dd/yyyy";
+    public final static String dateFormat_3 = "yyyy/MM/dd";
+    public final static String dateFormat_4 = "yyyy_MM_dd";
+    public final static String timeFormat_1 = "HH:mm:ss";
+    public final static String timeFormat_2 = "HH_mm_ss";
 
     public String getCurrentDateTime(String sampleDateTimeFormat) {
         SimpleDateFormat formatter = new SimpleDateFormat(dateTimeFormat_1);

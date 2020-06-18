@@ -8,9 +8,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
 import in.ibm.chirra.saf.FWSetup.FW_Constants;
@@ -19,6 +17,7 @@ import in.ibm.chirra.saf.report.HTMLReport;
 import in.ibm.chirra.saf.utilities.CustomCode;
 import in.ibm.chirra.saf.utilities.DateTimeWork;
 import in.ibm.chirra.saf.utilities.FileDirectoryWork;
+import in.ibm.chirra.saf.utilities.LogFile;
 
 public class DriverSetup {
 	
@@ -44,13 +43,14 @@ public class DriverSetup {
 		
 		FileDirectoryWork.createDirectory(htmlReport_resultsFolderPath);
 		//FileDirectoryWork.createFile("CSR_SAF_RESULTS.html");
-		
+				
 		HTMLReport.createExtentReport();
 	}
 
 	FW_Constants fwConsObj = null;
 	public LinkedHashMap<String, String> classTestData_LHM = null;
 	public HTMLReport htmlReportObj = null;
+	public String logFilePath = null;
 	@Parameters({ "CLASSNAME", "TC_ID", "BROWSER" })
 	@BeforeClass
 	public void beforeClassTestAnnLoad(String CLASSNAME, String TC_ID, String BROWSER) {
@@ -64,6 +64,11 @@ public class DriverSetup {
 		fwConsObj = new FW_Constants();
 		classTestData_LHM = fwConsObj.loadTestDataForClass(CLASSNAME+"###"+TC_ID+"###"+BROWSER);
 		htmlReportObj = new HTMLReport();
+		
+		logFilePath = htmlReport_resultsFolderPath+"/"+TC_ID+".log";
+		LogFile logFileObj = new LogFile();
+		logFileObj.createFile(logFilePath);
+		
 		loadDriver(driverType, BROWSER, TC_ID, htmlReportObj);
 	}
 	

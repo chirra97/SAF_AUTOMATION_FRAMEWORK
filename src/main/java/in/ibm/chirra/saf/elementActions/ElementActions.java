@@ -1,5 +1,7 @@
 package in.ibm.chirra.saf.elementActions;
 
+import java.util.LinkedHashMap;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -13,10 +15,24 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import in.ibm.chirra.saf.FWSetup.FW_Constants;
 import in.ibm.chirra.saf.report.HTMLReport;
+import in.ibm.chirra.saf.utilities.LogFile;
 
 public class ElementActions {
+	
 
-	public boolean dynamicWaitForElementVisible(WebDriver driver, By locater, int waitTimeInSeconds) {
+	WebDriver driver = null;
+	LinkedHashMap<String, String> classTestData = null;
+	HTMLReport htmlReportObj = null;
+	String logFilePath = null;
+	
+	public ElementActions(WebDriver driver, LinkedHashMap<String, String> classTestData, HTMLReport htmlReportObj, String logFilePath) {
+		this.driver = driver;
+		this.classTestData = classTestData;
+		this.htmlReportObj = htmlReportObj;
+		this.logFilePath = logFilePath;
+	}
+
+	public boolean dynamicWaitForElementVisible(By locater, int waitTimeInSeconds) {
 		try {
 			WebDriverWait waitObj = new WebDriverWait(driver, waitTimeInSeconds);
 			waitObj.until(ExpectedConditions.presenceOfElementLocated(locater));
@@ -26,7 +42,7 @@ public class ElementActions {
 		return false;
 	}
 
-	public boolean dynamicWaitForElementClickable(WebDriver driver, By locater, int waitTimeInSeconds) {
+	public boolean dynamicWaitForElementClickable(By locater, int waitTimeInSeconds) {
 		try {
 			WebDriverWait waitObj = new WebDriverWait(driver, waitTimeInSeconds);
 			waitObj.until(ExpectedConditions.elementToBeClickable(locater));
@@ -36,7 +52,7 @@ public class ElementActions {
 		return false;
 	}
 
-	private boolean highlightElement(WebDriver driver, WebElement element) {
+	private boolean highlightElement(WebElement element) {
 		try {
 			((JavascriptExecutor) driver).executeScript("arguments[0].style.border='3px solid red'", element);
 		} catch (Exception e) {
@@ -44,7 +60,7 @@ public class ElementActions {
 		return true;
 	}
 
-	private boolean removeHighlightElement(WebDriver driver, WebElement element) {
+	private boolean removeHighlightElement(WebElement element) {
 		if (element == null) {
 			System.out.println("Element is NULL");
 			return false;
@@ -56,11 +72,11 @@ public class ElementActions {
 		return true;
 	}
 
-	public boolean isElementPresent(WebDriver driver, By elementLocater) {
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+	public boolean isElementPresent(By elementLocater) {
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement(element);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -68,13 +84,12 @@ public class ElementActions {
 		return false;
 	}
 
-	public void verifyIsElementPresent(WebDriver driver, By elementLocater, String testData, String elementName,
-			HTMLReport htmlReportObj) {
+	public void verifyIsElementPresent(By elementLocater, String testData, String elementName) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement(element);
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS",
 					"Verify is Element " + elementName + " present", "Element " + elementName + " not present");
 		} catch (Exception e) {
@@ -84,14 +99,13 @@ public class ElementActions {
 		}
 	}
 
-	public void getTextFromElement(WebDriver driver, By elementLocater, String testData, String elementName,
-			HTMLReport htmlReportObj) {
+	public void getTextFromElement(By elementLocater, String testData, String elementName) {
 
 		String elementText = "";
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement(element);
 
 			elementText = element.getText();
 
@@ -104,14 +118,13 @@ public class ElementActions {
 		}
 	}
 
-	public void getTextFromInputElement(WebDriver driver, By elementLocater, String testData, String elementName,
-			HTMLReport htmlReportObj) {
+	public void getTextFromInputElement(By elementLocater, String testData, String elementName) {
 
 		String elementText = "";
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement(element);
 			elementText = element.getAttribute("value");
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Get element " + elementName + " text ",
 					"Element " + elementName + " having text " + elementText);
@@ -119,60 +132,60 @@ public class ElementActions {
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Get element " + elementName + " text ",
 					"Unable to capture Element " + elementName + " text");
 			e.printStackTrace();
-			;
 		}
 	}
 
-	public void enterText(WebDriver driver, By elementLocater, String testData, String elementName,
-			HTMLReport htmlReportObj) {
+	public void enterText(By elementLocater, String testData, String elementName) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement(element);
 			element.clear();
 			element.sendKeys(testData);
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS",
 					"Enter text " + testData + " into element " + elementName,
-					"Text " + testData + " entered into elemenet " + elementName);
-			removeHighlightElement(driver, element);
+					"Text " + testData + " entered into element " + elementName);
+			removeHighlightElement(element);
+			LogFile.info(logFilePath, "Text " + testData + " entered into element " + elementName);
 		} catch (Exception e) {
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL",
-					"Unable to Enter text " + testData + " into element " + elementName,
-					"Text " + testData + " entered into elemenet " + elementName);
+					"Enter text " + testData + " into element " + elementName,
+					"Unable to enter Text " + testData + " entered into element " + elementName);
 			e.printStackTrace();
+			LogFile.info(logFilePath,"Unable to enter Text " + testData + " entered into element " + elementName);
+			LogFile.info(logFilePath, ""+e.getMessage());
 		}
 	}
 
-	public void enterTextUsingActions(WebDriver driver, By elementLocater, String testData, String elementName,
-			HTMLReport htmlReportObj) {
+	public void enterTextUsingActions(By elementLocater, String testData, String elementName) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement(element);
 			element.clear();
 			Actions actObj = new Actions(driver);
 			actObj.moveToElement(element).click().sendKeys(testData).build().perform();
 
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS",
 					"Enter text " + testData + " into element " + elementName,
-					"Text " + testData + " entered into elemenet " + element);
+					"Text " + testData + " entered into element " + element);
 		} catch (Exception e) {
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL",
 					"Unable to Enter text " + testData + " into element " + elementName,
-					"Text " + testData + " entered into elemenet " + elementName);
+					"Text " + testData + " entered into element " + elementName);
 			e.printStackTrace();
 			;
 		}
 	}
 
-	public void clickElement(WebDriver driver, By elementLocater, String elementName, HTMLReport htmlReportObj) {
+	public void clickElement(By elementLocater, String elementName) {
 
-		dynamicWaitForElementClickable(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementClickable(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement( element);
 			element.click();
 
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the lement " + elementName,
@@ -184,13 +197,12 @@ public class ElementActions {
 		}
 	}
 
-	public void clickElementUsingJavaScript(WebDriver driver, By elementLocater, String elementName,
-			HTMLReport htmlReportObj) {
+	public void clickElementUsingJavaScript(By elementLocater, String elementName) {
 
-		dynamicWaitForElementClickable(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementClickable(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement( element);
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
 			executor.executeScript("arguments[0].click();", element);
 
@@ -203,13 +215,12 @@ public class ElementActions {
 		}
 	}
 
-	public void clickElementUsingActions(WebDriver driver, By elementLocater, String elementName,
-			HTMLReport htmlReportObj) {
+	public void clickElementUsingActions(By elementLocater, String elementName) {
 
-		dynamicWaitForElementClickable(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementClickable(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement( element);
 			Actions actObj = new Actions(driver);
 			actObj.moveToElement(element).click().build().perform();
 
@@ -222,13 +233,13 @@ public class ElementActions {
 		}
 	}
 
-	public void clickElementUsingActionsWithCoordinates(WebDriver driver, By elementLocater, int x_position,
-			int y_position, String elementName, HTMLReport htmlReportObj) {
+	public void clickElementUsingActionsWithCoordinates(By elementLocater, int x_position,
+			int y_position, String elementName) {
 
-		dynamicWaitForElementClickable(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementClickable(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement( element);
 			Actions actObj = new Actions(driver);
 			actObj.moveToElement(element, x_position, y_position).click().build().perform();
 
@@ -241,13 +252,12 @@ public class ElementActions {
 		}
 	}
 
-	public void selectListBoxItemByIndex(WebDriver driver, By elementLocater, int indexNumber, String elementName,
-			HTMLReport htmlReportObj) {
+	public void selectListBoxItemByIndex(By elementLocater, int indexNumber, String elementName) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement( element);
 
 			Select selObj = new Select(element);
 			selObj.selectByIndex(indexNumber);
@@ -262,13 +272,12 @@ public class ElementActions {
 		}
 	}
 
-	public void selectListBoxItemByValue(WebDriver driver, By elementLocater, String value, String elementName,
-			HTMLReport htmlReportObj) {
+	public void selectListBoxItemByValue(By elementLocater, String value, String elementName) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement( element);
 
 			Select selObj = new Select(element);
 			selObj.selectByValue(value);
@@ -284,13 +293,13 @@ public class ElementActions {
 		}
 	}
 
-	public void selectListBoxItemByVisibleText(WebDriver driver, By elementLocater, String visibleText,
-			String elementName, HTMLReport htmlReportObj) {
+	public void selectListBoxItemByVisibleText(By elementLocater, String visibleText,
+			String elementName) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement( element);
 
 			Select selObj = new Select(element);
 			selObj.selectByValue(visibleText);
@@ -306,7 +315,7 @@ public class ElementActions {
 		}
 	}
 
-	public void switchToFrameByFrameIndex(WebDriver driver, int frameIndexNumber, HTMLReport htmlReportObj) {
+	public void switchToFrameByFrameIndex(int frameIndexNumber) {
 
 		try {
 			driver.switchTo().frame(frameIndexNumber);
@@ -321,7 +330,7 @@ public class ElementActions {
 		}
 	}
 
-	public void switchToFrameByFrameName(WebDriver driver, String frameName, HTMLReport htmlReportObj) {
+	public void switchToFrameByFrameName(String frameName) {
 
 		try {
 			driver.switchTo().frame(frameName);
@@ -336,12 +345,12 @@ public class ElementActions {
 		}
 	}
 
-	public void switchToFrameByFrameElement(WebDriver driver, By elementLocater, HTMLReport htmlReportObj) {
+	public void switchToFrameByFrameElement(By elementLocater) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
-			highlightElement(driver, element);
+			highlightElement( element);
 			driver.switchTo().frame(element);
 			element.click();
 
@@ -354,9 +363,9 @@ public class ElementActions {
 		}
 	}
 
-	public void acceptAlert(WebDriver driver, By elementLocater, String elementName, HTMLReport htmlReportObj) {
+	public void acceptAlert(By elementLocater, String elementName) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 
 			Alert alertObj = driver.switchTo().alert();
@@ -369,9 +378,9 @@ public class ElementActions {
 		}
 	}
 
-	public void dismissAlert(WebDriver driver, By elementLocater, String elementName, HTMLReport htmlReportObj) {
+	public void dismissAlert(By elementLocater, String elementName) {
 
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 
 			Alert alertObj = driver.switchTo().alert();
@@ -384,10 +393,10 @@ public class ElementActions {
 		}
 	}
 
-	public String getAlertMessage(WebDriver driver, By elementLocater, String elementName, HTMLReport htmlReportObj) {
+	public String getAlertMessage(By elementLocater, String elementName) {
 
 		String alertMessage = "";
-		dynamicWaitForElementVisible(driver, elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 
 			Alert alertObj = driver.switchTo().alert();
@@ -403,7 +412,7 @@ public class ElementActions {
 		return alertMessage;
 	}
 
-	public void switchToWindowByFrameIndex(WebDriver driver, int windowIndexNumber, HTMLReport htmlReportObj) {
+	public void switchToWindowByFrameIndex(int windowIndexNumber) {
 
 		try {
 			String windowId = driver.getWindowHandles().toArray()[windowIndexNumber].toString();
@@ -419,7 +428,7 @@ public class ElementActions {
 		}
 	}
 
-	public void switchToLatestWindow(WebDriver driver, HTMLReport htmlReportObj) {
+	public void switchToLatestWindow() {
 
 		try {
 			int count = driver.getWindowHandles().toArray().length;
@@ -434,7 +443,7 @@ public class ElementActions {
 		}
 	}
 
-	public void switchToMainWindow(WebDriver driver, HTMLReport htmlReportObj) {
+	public void switchToMainWindow() {
 
 		try {
 			driver.switchTo().defaultContent();
@@ -447,7 +456,7 @@ public class ElementActions {
 		}
 	}
 
-	public void moveCursorUsingActions(WebDriver driver, int x_position, int y_position, HTMLReport htmlReportObj) {
+	public void moveCursorUsingActions(int x_position, int y_position) {
 
 		try {
 			Actions actObj = new Actions(driver);
@@ -464,48 +473,48 @@ public class ElementActions {
 		}
 	}
 
-	public void scrollDown(WebDriver driver, int noOfTimes) {
+	public void scrollDown(int noOfTimes) {
 
 		Actions actObj = new Actions(driver);
 		for (int i = 0; i < noOfTimes; i++) {
 			actObj.sendKeys(Keys.PAGE_DOWN).build().perform();
-			waitSomeTime(driver, 2);
+			waitSomeTime(2);
 		}
 	}
 
-	public void scrollUp(WebDriver driver, int noOfTimes) {
+	public void scrollUp(int noOfTimes) {
 
 		Actions actObj = new Actions(driver);
 		for (int i = 0; i < noOfTimes; i++) {
 			actObj.sendKeys(Keys.PAGE_UP).build().perform();
-			waitSomeTime(driver, 2);
+			waitSomeTime(2);
 		}
 	}
 
-	public void pressEnter(WebDriver driver, int noOfTimes) {
+	public void pressEnter(int noOfTimes) {
 
 		Actions actObj = new Actions(driver);
 		for (int i = 0; i < noOfTimes; i++) {
 			actObj.sendKeys(Keys.ENTER).build().perform();
-			waitSomeTime(driver, 2);
+			waitSomeTime(2);
 		}
 	}
 
-	public void pressTab(WebDriver driver, int noOfTimes) {
+	public void pressTab(int noOfTimes) {
 
 		Actions actObj = new Actions(driver);
 		for (int i = 0; i < noOfTimes; i++) {
 			actObj.sendKeys(Keys.TAB).build().perform();
-			waitSomeTime(driver, 2);
+			waitSomeTime(2);
 		}
 	}
 
-	public void waitSomeTime(WebDriver driver, int timeInSeconds) {
+	public void waitSomeTime(int timeInSeconds) {
 		Actions actObj = new Actions(driver);
 		actObj.pause(timeInSeconds * 1000);
 	}
 
-	public void closeCurrentBrowser(WebDriver driver) {
+	public void closeCurrentBrowser() {
 		try {
 			driver.close();
 		} catch (Exception e) {
