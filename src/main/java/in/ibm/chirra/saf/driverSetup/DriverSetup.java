@@ -9,7 +9,6 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Layout;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.apache.log4j.SimpleLayout;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.AfterClass;
@@ -23,7 +22,7 @@ import in.ibm.chirra.saf.report.HTMLReport;
 import in.ibm.chirra.saf.utilities.CustomCode;
 import in.ibm.chirra.saf.utilities.DateTimeWork;
 import in.ibm.chirra.saf.utilities.FileDirectoryWork;
-import in.ibm.chirra.saf.utilities.LogFile;
+
 
 public class DriverSetup {
 	
@@ -73,8 +72,6 @@ public class DriverSetup {
 		htmlReportObj = new HTMLReport();
 		
 		logFilePath = htmlReport_resultsFolderPath+"/"+TC_ID+".log";
-		LogFile logFileObj = new LogFile();
-		logFileObj.createFile(logFilePath);
 		
 		log4jObj = Logger.getLogger(TC_ID);
 		Layout layoutObj = new PatternLayout("%d %m %n");
