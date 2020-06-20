@@ -146,7 +146,7 @@ public class ElementActions {
 		}
 	}
 
-	public void enterText(By elementLocater, String testDataColumnName, String elementName) {
+	public boolean enterText(By elementLocater, String testDataColumnName, String elementName) {
 
 		String testData = getElementTestData(testDataColumnName);
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
@@ -160,6 +160,7 @@ public class ElementActions {
 					"Text " + testData + " entered into element " + elementName);
 			removeHighlightElement(element);
 			log4jObj.debug("Text " + testData + " entered into element " + elementName);
+			return true;
 		} catch (Exception e) {
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, reportTCObject, "FAIL",
 					"Enter text " + testData + " into element " + elementName,
@@ -167,6 +168,7 @@ public class ElementActions {
 			e.printStackTrace();
 			log4jObj.debug("Unable to enter Text " + testData + " entered into element " + elementName);
 			log4jObj.error(""+e.getMessage());
+			return false;
 		}
 	}
 
