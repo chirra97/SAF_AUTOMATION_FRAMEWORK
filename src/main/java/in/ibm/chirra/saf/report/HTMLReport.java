@@ -1,25 +1,22 @@
 package in.ibm.chirra.saf.report;
 
-import com.relevantcodes.extentreports.ExtentReports;
-import com.relevantcodes.extentreports.ExtentTest;
-import com.relevantcodes.extentreports.LogStatus;
-
-import in.ibm.chirra.saf.driverSetup.DriverSetup;
-import in.ibm.chirra.saf.utilities.DateTimeWork;
+import java.io.File;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 
-import java.io.File;
+import com.relevantcodes.extentreports.ExtentReports;
+import com.relevantcodes.extentreports.ExtentTest;
+import com.relevantcodes.extentreports.LogStatus;
+
+import in.ibm.chirra.saf.utilities.DateTimeWork;
 
 public class HTMLReport {
 
 	static ExtentReports extent = null;
-	static ExtentTest test = null;
-
-	String htmlReport_resultsFolderPath = null;
+	static String htmlReport_resultsFolderPath = null;
 
 	public String takeScreenshot(WebDriver driver) {
 		try {
@@ -37,19 +34,21 @@ public class HTMLReport {
 		return "";
 	}
 
-	public void createExtentReport(String htmlReport_resultsFolderPath) {
-		if (extent != null) {
-			extent = new ExtentReports(htmlReport_resultsFolderPath + "/CSR_SAF_RESULTS" + "_"
+	public static void createExtentReport(String htmlReportResultsFolderPath) {
+		
+		if (extent == null) {
+			extent = new ExtentReports(htmlReportResultsFolderPath + "/CSR_SAF_RESULTS" + "_"
 					+ DateTimeWork.getCurrentDateTime() + ".html", true);
-			this.htmlReport_resultsFolderPath = htmlReport_resultsFolderPath;
+			htmlReport_resultsFolderPath = htmlReportResultsFolderPath;
 		}
 	}
 
-	public void addTestCaseToReport(String testCaseName, String testCaseDescription) {
-		test = extent.startTest(testCaseName, testCaseDescription);
+	public ExtentTest addTestCaseToReport(String testCaseName, String testCaseDescription) {
+		ExtentTest test = extent.startTest(testCaseName, testCaseDescription);
+		return test;
 	}
 
-	public void addTestStepToReport(String status, String stepName, String description) {
+	public void addTestStepToReport(ExtentTest test, String status, String stepName, String description) {
 		try {
 			if (status.equalsIgnoreCase("PASS")) {
 				test.log(LogStatus.PASS, stepName, description);
@@ -61,12 +60,12 @@ public class HTMLReport {
 		} catch (Exception e) {
 		}
 		try {
-			saveReport();
+			saveReport(test);
 		} catch (Exception e) {
 		}
 	}
 
-	public void addTestStepToReportWithScreenShot(WebDriver driver, String status, String stepName,
+	public void addTestStepToReportWithScreenShot(WebDriver driver, ExtentTest test, String status, String stepName,
 			String description) {
 		try {
 			if (status.equalsIgnoreCase("PASS")) {
@@ -79,12 +78,12 @@ public class HTMLReport {
 		} catch (Exception e) {
 		}
 		try {
-			saveReport();
+			saveReport(test);
 		} catch (Exception e) {
 		}
 	}
 
-	public void saveReport() {
+	public void saveReport(ExtentTest test) {
 		try {
 			extent.endTest(test);
 			extent.flush();

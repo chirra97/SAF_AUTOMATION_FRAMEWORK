@@ -138,7 +138,6 @@ public class FW_DataLoad {
 		TestNG runner = new TestNG();
 		List<String> suitefiles = new ArrayList<String>();
 		suitefiles.add(System.getProperty("exeTestNGXML"));
-		// suitefiles.add("TestNG_1592291551580.xml");
 		runner.setTestSuites(suitefiles);
 		runner.run();
 
