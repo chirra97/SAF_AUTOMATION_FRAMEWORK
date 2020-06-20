@@ -15,7 +15,7 @@ public class FW_Constants {
 	public static String driverType = "";
 	public static String isParallelExecution = "";
 	public static String parallelExecutionCount = "";
-	public static int maxWaitTimeForElement = 30;
+	public static int maxWaitTimeForElement = 0;
 	public static String testDataSheetNames = "";
 	
 	/*

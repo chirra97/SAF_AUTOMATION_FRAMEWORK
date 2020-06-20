@@ -14,6 +14,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,13 +138,36 @@ public class FW_DataLoad {
 		TestNG runner = new TestNG();
 		List<String> suitefiles = new ArrayList<String>();
 		suitefiles.add(System.getProperty("exeTestNGXML"));
-		//suitefiles.add("TestNG_1592291551580.xml");
+		// suitefiles.add("TestNG_1592291551580.xml");
 		runner.setTestSuites(suitefiles);
 		runner.run();
+
+		// Load config file data
+		if (FW_Constants.configFileData_LHM.get("Want_To_Rerun_FailedCases_Once").toString()
+				.equalsIgnoreCase("Yes")) {
+			TestNG failRunner = new TestNG();
+            List<String> suitesFail = new ArrayList<String>();
+            //suites.clear();
+            String failedXMlFilePath = System.getProperty("user.dir")+"\\test-output\\testng-failed.xml";
+            File failedXMlFilePathFileObj = new File(failedXMlFilePath);
+            suitesFail.add(failedXMlFilePathFileObj.getPath());
+            failRunner.setTestSuites(suitesFail);
+            failRunner.run();
+		}
 	}
-
+	
+	public static void killAllDrivers() {
+		try {
+			Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void fw_executeMethod() {
-
+		
+		killAllDrivers();
+		
 		// Load config file data
 		FW_Constants.lodConfigSheetInfo();
 

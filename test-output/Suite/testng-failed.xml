@@ -20,4 +20,42 @@
       <class name="in.ibm.chirra.saf.test.Test_2"/>
     </classes>
   </test> <!-- TC002 -->
+  <test name="TC002(failed)" parallel="tests">
+    <parameter name="BROWSER" value="Chrome"/>
+    <parameter name="TC_ID" value="TC002"/>
+    <parameter name="CLASSNAME" value="Test_2"/>
+    <classes>
+      <class name="in.ibm.chirra.saf.test.Test_1">
+        <methods>
+          <include name="beforeClassTestAnnLoad"/>
+        </methods>
+      </class> <!-- in.ibm.chirra.saf.test.Test_1 -->
+      <class name="in.ibm.chirra.saf.test.Test_2">
+        <methods>
+          <include name="beforeClassTestAnnLoad"/>
+          <include name="initiate"/>
+          <include name="sampleTest1"/>
+        </methods>
+      </class> <!-- in.ibm.chirra.saf.test.Test_2 -->
+    </classes>
+  </test> <!-- TC002(failed) -->
+  <test name="TC001(failed)" parallel="tests">
+    <parameter name="BROWSER" value="Chrome"/>
+    <parameter name="TC_ID" value="TC001"/>
+    <parameter name="CLASSNAME" value="Test_1"/>
+    <classes>
+      <class name="in.ibm.chirra.saf.test.Test_1">
+        <methods>
+          <include name="beforeClassTestAnnLoad"/>
+          <include name="sampleTest1"/>
+        </methods>
+      </class> <!-- in.ibm.chirra.saf.test.Test_1 -->
+      <class name="in.ibm.chirra.saf.test.Test_2">
+        <methods>
+          <include name="beforeClassTestAnnLoad"/>
+          <include name="initiate"/>
+        </methods>
+      </class> <!-- in.ibm.chirra.saf.test.Test_2 -->
+    </classes>
+  </test> <!-- TC001(failed) -->
 </suite> <!-- Failed suite [Suite] -->

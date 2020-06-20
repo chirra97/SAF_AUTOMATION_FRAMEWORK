@@ -7,7 +7,7 @@ public class LoginPage {
 	
 	public final By mobileNumber = By.name("ADMIN_MOBILE");
 	public final By password = By.name("ADMIN_PASSWORD");
-	public final By submit = By.name("submit");
+	public final By submit = By.name("submitABC");
 	
 	
 }

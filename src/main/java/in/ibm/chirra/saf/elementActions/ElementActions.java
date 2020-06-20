@@ -14,9 +14,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import in.ibm.chirra.saf.FWSetup.FW_ClassRefObjetcs;
 import in.ibm.chirra.saf.FWSetup.FW_Constants;
 import in.ibm.chirra.saf.report.HTMLReport;
-import in.ibm.chirra.saf.utilities.LogFile;
 
 public class ElementActions {
 	
@@ -27,14 +27,19 @@ public class ElementActions {
 	String logFilePath = null;
 	Logger log4jObj = null;
 	
-	public ElementActions(WebDriver driver, LinkedHashMap<String, String> classTestData, 
-			HTMLReport htmlReportObj, Logger log4jObj) {
-		this.driver = driver;
-		this.classTestData = classTestData;
-		this.htmlReportObj = htmlReportObj;
-		this.log4jObj = log4jObj;
+	public ElementActions(FW_ClassRefObjetcs fwClassRefObj) {
+		this.driver = fwClassRefObj.driver;
+		this.classTestData = fwClassRefObj.classTestData;
+		this.htmlReportObj = fwClassRefObj.htmlReportObj;
+		this.log4jObj = fwClassRefObj.log4jObj;
 	}
 
+	public String getElementTestData(String testDataColumnName) {
+		if(classTestData.containsKey(testDataColumnName))
+			return classTestData.get(testDataColumnName);
+		else 
+			return "";
+	}
 	public boolean dynamicWaitForElementVisible(By locater, int waitTimeInSeconds) {
 		try {
 			WebDriverWait waitObj = new WebDriverWait(driver, waitTimeInSeconds);
@@ -87,7 +92,7 @@ public class ElementActions {
 		return false;
 	}
 
-	public void verifyIsElementPresent(By elementLocater, String testData, String elementName) {
+	public void verifyIsElementPresent(By elementLocater, String elementName) {
 
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
@@ -102,7 +107,7 @@ public class ElementActions {
 		}
 	}
 
-	public void getTextFromElement(By elementLocater, String testData, String elementName) {
+	public void getTextFromElement(By elementLocater, String elementName) {
 
 		String elementText = "";
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
@@ -121,7 +126,7 @@ public class ElementActions {
 		}
 	}
 
-	public void getTextFromInputElement(By elementLocater, String testData, String elementName) {
+	public void getTextFromInputElement(By elementLocater, String elementName) {
 
 		String elementText = "";
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
@@ -138,8 +143,9 @@ public class ElementActions {
 		}
 	}
 
-	public void enterText(By elementLocater, String testData, String elementName) {
+	public void enterText(By elementLocater, String testDataColumnName, String elementName) {
 
+		String testData = getElementTestData(testDataColumnName);
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
@@ -156,13 +162,13 @@ public class ElementActions {
 					"Enter text " + testData + " into element " + elementName,
 					"Unable to enter Text " + testData + " entered into element " + elementName);
 			e.printStackTrace();
-			log4jObj.info("Unable to enter Text " + testData + " entered into element " + elementName);
-			log4jObj.info(""+e.getMessage());
+			log4jObj.debug("Unable to enter Text " + testData + " entered into element " + elementName);
+			log4jObj.error(""+e.getMessage());
 		}
 	}
 
-	public void enterTextUsingActions(By elementLocater, String testData, String elementName) {
-
+	public void enterTextUsingActions(By elementLocater, String testDataColumnName, String elementName) {
+		String testData = getElementTestData(testDataColumnName);
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
@@ -179,7 +185,6 @@ public class ElementActions {
 					"Unable to Enter text " + testData + " into element " + elementName,
 					"Text " + testData + " entered into element " + elementName);
 			e.printStackTrace();
-			;
 		}
 	}
 
@@ -191,10 +196,10 @@ public class ElementActions {
 			highlightElement( element);
 			element.click();
 
-			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the lement " + elementName,
+			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the element " + elementName,
 					"Element " + elementName + " clicked");
 		} catch (Exception e) {
-			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Click the lement " + elementName,
+			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Click the element " + elementName,
 					"Unable to click the element " + elementName);
 			e.printStackTrace();
 		}
@@ -209,10 +214,10 @@ public class ElementActions {
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
 			executor.executeScript("arguments[0].click();", element);
 
-			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the lement " + elementName,
+			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the element " + elementName,
 					"Element " + elementName + " clicked");
 		} catch (Exception e) {
-			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Click the lement " + elementName,
+			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Click the element " + elementName,
 					"Unable to click the element " + elementName);
 			e.printStackTrace();
 		}
@@ -227,10 +232,10 @@ public class ElementActions {
 			Actions actObj = new Actions(driver);
 			actObj.moveToElement(element).click().build().perform();
 
-			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the lement " + elementName,
+			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the element " + elementName,
 					"Element " + elementName + " clicked");
 		} catch (Exception e) {
-			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Click the lement " + elementName,
+			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Click the element " + elementName,
 					"Unable to click the element " + elementName);
 			e.printStackTrace();
 		}
@@ -246,17 +251,22 @@ public class ElementActions {
 			Actions actObj = new Actions(driver);
 			actObj.moveToElement(element, x_position, y_position).click().build().perform();
 
-			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the lement " + elementName,
+			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS", "Click the element " + elementName,
 					"Element " + elementName + " clicked");
 		} catch (Exception e) {
-			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Click the lement " + elementName,
+			htmlReportObj.addTestStepToReportWithScreenShot(driver, "FAIL", "Click the element " + elementName,
 					"Unable to click the element " + elementName);
 			e.printStackTrace();
 		}
 	}
 
-	public void selectListBoxItemByIndex(By elementLocater, int indexNumber, String elementName) {
+	public void selectListBoxItemByIndex(By elementLocater, String testDataColumnName, String elementName) {
 
+		int indexNumber = 0;
+		try {
+			indexNumber = Integer.parseInt(getElementTestData(testDataColumnName));
+		} catch (NumberFormatException e1) {
+		}
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
@@ -275,8 +285,9 @@ public class ElementActions {
 		}
 	}
 
-	public void selectListBoxItemByValue(By elementLocater, String value, String elementName) {
+	public void selectListBoxItemByValue(By elementLocater, String testDataColumnName, String elementName) {
 
+		String value = getElementTestData(testDataColumnName);
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
@@ -296,9 +307,10 @@ public class ElementActions {
 		}
 	}
 
-	public void selectListBoxItemByVisibleText(By elementLocater, String visibleText,
+	public void selectListBoxItemByVisibleText(By elementLocater, String testDataColumnName,
 			String elementName) {
 
+		String visibleText = getElementTestData(testDataColumnName);
 		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
@@ -318,8 +330,13 @@ public class ElementActions {
 		}
 	}
 
-	public void switchToFrameByFrameIndex(int frameIndexNumber) {
+	public void switchToFrameByFrameIndex(String testDataColumnName) {
 
+		int frameIndexNumber = 0;
+		try {
+			frameIndexNumber = Integer.parseInt(getElementTestData(testDataColumnName));
+		} catch (NumberFormatException e1) {
+		}
 		try {
 			driver.switchTo().frame(frameIndexNumber);
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS",
@@ -333,8 +350,8 @@ public class ElementActions {
 		}
 	}
 
-	public void switchToFrameByFrameName(String frameName) {
-
+	public void switchToFrameByFrameName(String testDataColumnName) {
+		String frameName = getElementTestData(testDataColumnName);
 		try {
 			driver.switchTo().frame(frameName);
 			htmlReportObj.addTestStepToReportWithScreenShot(driver, "PASS",
@@ -415,8 +432,12 @@ public class ElementActions {
 		return alertMessage;
 	}
 
-	public void switchToWindowByFrameIndex(int windowIndexNumber) {
-
+	public void switchToWindowByFrameIndex(String testDataColumnName) {
+		int windowIndexNumber = 0;
+		try {
+			windowIndexNumber = Integer.parseInt(getElementTestData(testDataColumnName));
+		} catch (NumberFormatException e1) {
+		}
 		try {
 			String windowId = driver.getWindowHandles().toArray()[windowIndexNumber].toString();
 			driver.switchTo().window(windowId);
