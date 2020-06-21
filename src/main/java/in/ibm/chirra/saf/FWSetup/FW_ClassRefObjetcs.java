@@ -8,30 +8,25 @@ import org.openqa.selenium.WebDriver;
 import com.relevantcodes.extentreports.ExtentTest;
 
 import in.ibm.chirra.saf.report.HTMLReport;
+import in.ibm.chirra.saf.report.WordGenerator;
 
 public class FW_ClassRefObjetcs {
-	
-	
+
 	public WebDriver driver = null;
 	public LinkedHashMap<String, String> classTestData = null;
 	public HTMLReport htmlReportObj = null;
-	public Logger log4jObj = null;
 	public ExtentTest reportTCObject = null;
-	
-	public FW_ClassRefObjetcs(WebDriver driver, LinkedHashMap<String, String> classTestData, 
-			HTMLReport htmlReportObj, ExtentTest reportTCObject, Logger log4jObj) {
-		
+	public WordGenerator wordDocGenerateObj = null;
+	public Logger log4jObj = null;
+
+	public FW_ClassRefObjetcs(WebDriver driver, LinkedHashMap<String, String> classTestData, HTMLReport htmlReportObj,
+			ExtentTest reportTCObject, WordGenerator wordDocGenerateObj, Logger log4jObj) {
+
 		this.driver = driver;
 		this.classTestData = classTestData;
 		this.htmlReportObj = htmlReportObj;
 		this.reportTCObject = reportTCObject;
+		this.wordDocGenerateObj = wordDocGenerateObj;
 		this.log4jObj = log4jObj;
-		 
 	}
-	
-	
-	
-	
-	
-
 }

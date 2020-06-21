@@ -1,7 +1,5 @@
 package in.ibm.chirra.saf.businesslogics;
 
-import org.testng.Assert;
-
 import in.ibm.chirra.saf.FWSetup.FW_ClassRefObjetcs;
 import in.ibm.chirra.saf.elementActions.ElementActions;
 import in.ibm.chirra.saf.pageObjects.LoginPage;

@@ -1,0 +1,14 @@
+2020-06-21 10:51:38,216 ****************************************************************************** 
+2020-06-21 10:51:38,217 ===>     TC001 - 2020_06_21_10_51_38 
+2020-06-21 10:51:38,217 ****************************************************************************** 
+2020-06-21 10:51:39,729 Text 9885 entered into User ID 
+2020-06-21 10:51:41,397 Text 123 entered into Password 
+2020-06-21 10:52:03,135 no such element: Unable to locate element: {"method":"css selector","selector":"*[name='submitA']"}
+  (Session info: chrome=83.0.4103.106)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:17:03'
+System info: host: 'LAPTOP-U74Q3VS2', ip: '192.168.0.103', os.name: 'Windows 10', os.arch: 'amd64', os.version: '10.0', java.version: '1.8.0_251'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 83.0.4103.106, chrome: {chromedriverVersion: 83.0.4103.39 (ccbf011cb2d2b..., userDataDir: C:\Users\SURESH~1\AppData\L...}, goog:chromeOptions: {debuggerAddress: localhost:63116}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:virtualAuthenticators: true}
+Session ID: 274b74861977110d1369dba3ad5cf2a1
+*** Element info: {Using=name, value=submitA} 

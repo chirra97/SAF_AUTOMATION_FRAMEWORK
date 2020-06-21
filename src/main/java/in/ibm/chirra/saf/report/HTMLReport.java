@@ -11,23 +11,22 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
+import in.ibm.chirra.saf.FWSetup.FW_Constants;
 import in.ibm.chirra.saf.utilities.DateTimeWork;
 
 public class HTMLReport {
 
 	static ExtentReports extent = null;
-	static String htmlReport_resultsFolderPath = null;
-
 	public String takeScreenshot(WebDriver driver) {
 		try {
 			String format = "png";
-			String imageFilePath = htmlReport_resultsFolderPath + "/Screenshots/Image_" + System.currentTimeMillis()
+			String imageFilePath = FW_Constants.htmlReport_resultsFolderPath + "/Screenshots/Image_" + System.currentTimeMillis()
 					+ "." + format;
 			TakesScreenshot scrShot = ((TakesScreenshot) driver);
 			File SrcFile = scrShot.getScreenshotAs(OutputType.FILE);
 			File DestFile = new File(imageFilePath);
 			FileUtils.copyFile(SrcFile, DestFile);
-			return imageFilePath.replace(htmlReport_resultsFolderPath + "/", "");
+			return imageFilePath.replace(FW_Constants.htmlReport_resultsFolderPath + "/", "");
 		} catch (Exception ex) {
 			System.err.println(ex);
 		}
@@ -39,7 +38,6 @@ public class HTMLReport {
 		if (extent == null) {
 			extent = new ExtentReports(htmlReportResultsFolderPath + "/CSR_SAF_RESULTS" + "_"
 					+ DateTimeWork.getCurrentDateTime() + ".html", true);
-			htmlReport_resultsFolderPath = htmlReportResultsFolderPath;
 		}
 	}
 
@@ -65,15 +63,19 @@ public class HTMLReport {
 		}
 	}
 
-	public void addTestStepToReportWithScreenShot(WebDriver driver, ExtentTest test, String status, String stepName,
+	public void addTestStepToReportWithScreenShot(WebDriver driver, ExtentTest test, WordGenerator wordDocGenerateObj, String status, String stepName,
 			String description) {
 		try {
+			String imagePath = takeScreenshot(driver);
 			if (status.equalsIgnoreCase("PASS")) {
-				test.log(LogStatus.PASS, stepName, description + " : " + test.addScreenCapture(takeScreenshot(driver)));
+				test.log(LogStatus.PASS, stepName, description + " : " + test.addScreenCapture(imagePath));
+				wordDocGenerateObj.addPassStepToDocumentWithImage(FW_Constants.htmlReport_resultsFolderPath+"/"+imagePath, description);
 			} else if (status.equalsIgnoreCase("FAIL")) {
-				test.log(LogStatus.FAIL, stepName, description + " : " + test.addScreenCapture(takeScreenshot(driver)));
+				test.log(LogStatus.FAIL, stepName, description + " : " + test.addScreenCapture(imagePath));
+				wordDocGenerateObj.addFailStepToDocumentWithImage(FW_Constants.htmlReport_resultsFolderPath+"/"+imagePath, description);
 			} else if (status.equalsIgnoreCase("INFO")) {
-				test.log(LogStatus.INFO, stepName, description + " : " + test.addScreenCapture(takeScreenshot(driver)));
+				test.log(LogStatus.INFO, stepName, description + " : " + test.addScreenCapture(imagePath));
+				wordDocGenerateObj.addPassStepToDocumentWithImage(FW_Constants.htmlReport_resultsFolderPath+"/"+imagePath, description);
 			}
 		} catch (Exception e) {
 		}

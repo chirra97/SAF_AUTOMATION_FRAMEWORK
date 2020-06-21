@@ -5,6 +5,10 @@ import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import in.ibm.chirra.saf.report.HTMLReport;
+import in.ibm.chirra.saf.utilities.DateTimeWork;
+import in.ibm.chirra.saf.utilities.FileDirectoryWork;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,6 +24,16 @@ import java.util.List;
 
 public class FW_DataLoad {
 
+	/**
+	 * Adds the test and class.
+	 *
+	 * @param doc the document
+	 * @param parentElement the parent element
+	 * @param className the class name
+	 * @param TCID
+	 * @param browser
+	 * @return the element
+	 */
 	private Element addTestAndClass(Document doc, Element parentElement, String className, String TCID,
 			String browser) {
 
@@ -81,6 +95,11 @@ public class FW_DataLoad {
 		return parentElement;
 	}
 
+	/**
+	 * Generate custom exe test NGXMLF ile.
+	 *
+	 * @param exeData the exe data
+	 */
 	private void generateCustomExeTestNGXMLFIle(ArrayList<String> exeData) {
 
 		Document doc = null;
@@ -118,7 +137,6 @@ public class FW_DataLoad {
 		}
 
 		try {
-			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
@@ -134,6 +152,9 @@ public class FW_DataLoad {
 		}
 	}
 
+	/**
+	 * Run test NGXML.
+	 */
 	private static void runTestNGXML() {
 		TestNG runner = new TestNG();
 		List<String> suitefiles = new ArrayList<String>();
@@ -141,42 +162,69 @@ public class FW_DataLoad {
 		runner.setTestSuites(suitefiles);
 		runner.run();
 
-		// Load config file data
-		if (FW_Constants.configFileData_LHM.get("Want_To_Rerun_FailedCases_Once").toString()
-				.equalsIgnoreCase("Yes")) {
+		if (FW_Constants.configFileData_LHM.get("Want_To_Rerun_FailedCases_Once").toString().equalsIgnoreCase("Yes")) {
 			TestNG failRunner = new TestNG();
-            List<String> suitesFail = new ArrayList<String>();
-            //suites.clear();
-            String failedXMlFilePath = System.getProperty("user.dir")+"\\test-output\\testng-failed.xml";
-            File failedXMlFilePathFileObj = new File(failedXMlFilePath);
-            suitesFail.add(failedXMlFilePathFileObj.getPath());
-            failRunner.setTestSuites(suitesFail);
-            failRunner.run();
+			List<String> suitesFail = new ArrayList<String>();
+			// suites.clear();
+			String failedXMlFilePath = System.getProperty("user.dir") + "\\test-output\\testng-failed.xml";
+			File failedXMlFilePathFileObj = new File(failedXMlFilePath);
+			suitesFail.add(failedXMlFilePathFileObj.getPath());
+			failRunner.setTestSuites(suitesFail);
+			failRunner.run();
 		}
 	}
-	
-	public static void killAllDrivers() {
+
+	/**
+	 * Creates the results folder.
+	 */
+	public void createResultsFolder() {
+
+		// Create Results folder if not exists
+		if (!FileDirectoryWork.isFileOrDirectoryExists(FW_Constants.htmlReport_resultsFolderPath)) {
+			FileDirectoryWork.createDirectory(FW_Constants.htmlReport_resultsFolderPath);
+		}
+
+		// Add current execution folder in inside Results
+		String newFolderName = "" + DateTimeWork.getCurrentDateTime();
+		FW_Constants.htmlReport_resultsFolderPath = FW_Constants.htmlReport_resultsFolderPath + newFolderName + "/";
+
+		FileDirectoryWork.createDirectory(FW_Constants.htmlReport_resultsFolderPath);
+
+		HTMLReport.createExtentReport(FW_Constants.htmlReport_resultsFolderPath);
+	}
+
+	/**
+	 * Kill all drivers.
+	 */
+	private void killAllDrivers() {
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/**
+	 * Fw execute method.
+	 */
 	public void fw_executeMethod() {
-		
+
+		// Close all drivers from Task Manager
 		killAllDrivers();
-		
+
+		// Creating Result folder if not exists and Generate subfolder with timestamp
+		// for current execution results
+		createResultsFolder();
+
 		// Load config file data
-		FW_Constants.lodConfigSheetInfo();
+		FW_Constants.loadConfigSheetInfo();
 
 		// Load ALL Test Data sheets data
 		FW_Constants.loadTestDataSheetsData();
 
 		ArrayList<String> exeData = new ArrayList<String>();
-		for (String key : FW_Constants.testDataSheet_data_LHM_LHM.keySet()) {
+		for (String key : FW_Constants.testDataSheet_data_LHM_LHM.keySet())
 			exeData.add(key);
-		}
 
 		// Create CUSTOME testNG.xml
 		generateCustomExeTestNGXMLFIle(exeData);
