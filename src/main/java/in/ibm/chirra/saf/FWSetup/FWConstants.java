@@ -17,6 +17,7 @@ public class FWConstants {
 	public static String parallelExecutionCount = "";
 	public static int maxWaitTimeForElement = 0;
 	public static String testDataSheetNames = "";
+	public static String wantToReRunFailedTestCasesOnce = "";
 
 	/**
 	 * Load config sheet info.
@@ -35,6 +36,7 @@ public class FWConstants {
 		maxWaitTimeForElement = Integer.parseInt(configFileData_LHM.get("Element_Max_Wait_Time"));
 		isParallelExecution = configFileData_LHM.get("Is_Parallel_Execution");
 		parallelExecutionCount = configFileData_LHM.get("Parallel_Execution_Count");
+		wantToReRunFailedTestCasesOnce = configFileData_LHM.get("Want_To_Rerun_FailedCases_Once");
 
 		System.out.println("configFileData_LHM : " + configFileData_LHM);
 	}

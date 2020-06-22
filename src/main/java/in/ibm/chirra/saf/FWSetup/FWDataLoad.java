@@ -162,10 +162,9 @@ public class FWDataLoad {
 		runner.setTestSuites(suitefiles);
 		runner.run();
 
-		if (FWConstants.configFileData_LHM.get("Want_To_Rerun_FailedCases_Once").toString().equalsIgnoreCase("Yes")) {
+		if (FWConstants.wantToReRunFailedTestCasesOnce.equalsIgnoreCase("Yes")) {
 			TestNG failRunner = new TestNG();
 			List<String> suitesFail = new ArrayList<String>();
-			// suites.clear();
 			String failedXMlFilePath = System.getProperty("user.dir") + "\\test-output\\testng-failed.xml";
 			File failedXMlFilePathFileObj = new File(failedXMlFilePath);
 			suitesFail.add(failedXMlFilePathFileObj.getPath());
