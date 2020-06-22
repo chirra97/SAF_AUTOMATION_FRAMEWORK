@@ -10,7 +10,7 @@ import com.relevantcodes.extentreports.ExtentTest;
 import in.ibm.chirra.saf.report.HTMLReport;
 import in.ibm.chirra.saf.report.WordGenerator;
 
-public class FW_ClassRefObjetcs {
+public class FWGlobalReferenceClass {
 
 	public WebDriver driver = null;
 	public LinkedHashMap<String, String> classTestData = null;
@@ -19,7 +19,7 @@ public class FW_ClassRefObjetcs {
 	public WordGenerator wordDocGenerateObj = null;
 	public Logger log4jObj = null;
 
-	public FW_ClassRefObjetcs(WebDriver driver, LinkedHashMap<String, String> classTestData, HTMLReport htmlReportObj,
+	public FWGlobalReferenceClass(WebDriver driver, LinkedHashMap<String, String> classTestData, HTMLReport htmlReportObj,
 			ExtentTest reportTCObject, WordGenerator wordDocGenerateObj, Logger log4jObj) {
 
 		this.driver = driver;

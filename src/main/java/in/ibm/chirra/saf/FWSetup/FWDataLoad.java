@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FW_DataLoad {
+public class FWDataLoad {
 
 	/**
 	 * Adds the test and class.
@@ -116,12 +116,12 @@ public class FW_DataLoad {
 		doc.appendChild(rootElement);
 
 		Attr attr = null;
-		if (FW_Constants.isParallelExecution.equalsIgnoreCase("yes")) {
+		if (FWConstants.isParallelExecution.equalsIgnoreCase("yes")) {
 			attr = doc.createAttribute("parallel");
 			attr.setValue("tests");
 			rootElement.setAttributeNode(attr);
 
-			String threadCount = FW_Constants.parallelExecutionCount.toString();
+			String threadCount = FWConstants.parallelExecutionCount.toString();
 			attr = doc.createAttribute("thread-count");
 			attr.setValue(threadCount);
 			rootElement.setAttributeNode(attr);
@@ -162,7 +162,7 @@ public class FW_DataLoad {
 		runner.setTestSuites(suitefiles);
 		runner.run();
 
-		if (FW_Constants.configFileData_LHM.get("Want_To_Rerun_FailedCases_Once").toString().equalsIgnoreCase("Yes")) {
+		if (FWConstants.configFileData_LHM.get("Want_To_Rerun_FailedCases_Once").toString().equalsIgnoreCase("Yes")) {
 			TestNG failRunner = new TestNG();
 			List<String> suitesFail = new ArrayList<String>();
 			// suites.clear();
@@ -180,17 +180,17 @@ public class FW_DataLoad {
 	public void createResultsFolder() {
 
 		// Create Results folder if not exists
-		if (!FileDirectoryWork.isFileOrDirectoryExists(FW_Constants.htmlReport_resultsFolderPath)) {
-			FileDirectoryWork.createDirectory(FW_Constants.htmlReport_resultsFolderPath);
+		if (!FileDirectoryWork.isFileOrDirectoryExists(FWConstants.htmlReport_resultsFolderPath)) {
+			FileDirectoryWork.createDirectory(FWConstants.htmlReport_resultsFolderPath);
 		}
 
 		// Add current execution folder in inside Results
 		String newFolderName = "" + DateTimeWork.getCurrentDateTime();
-		FW_Constants.htmlReport_resultsFolderPath = FW_Constants.htmlReport_resultsFolderPath + newFolderName + "/";
+		FWConstants.htmlReport_resultsFolderPath = FWConstants.htmlReport_resultsFolderPath + newFolderName + "/";
 
-		FileDirectoryWork.createDirectory(FW_Constants.htmlReport_resultsFolderPath);
+		FileDirectoryWork.createDirectory(FWConstants.htmlReport_resultsFolderPath);
 
-		HTMLReport.createExtentReport(FW_Constants.htmlReport_resultsFolderPath);
+		HTMLReport.createExtentReport(FWConstants.htmlReport_resultsFolderPath);
 	}
 
 	/**
@@ -217,13 +217,13 @@ public class FW_DataLoad {
 		createResultsFolder();
 
 		// Load config file data
-		FW_Constants.loadConfigSheetInfo();
+		FWConstants.loadConfigSheetInfo();
 
 		// Load ALL Test Data sheets data
-		FW_Constants.loadTestDataSheetsData();
+		FWConstants.loadTestDataSheetsData();
 
 		ArrayList<String> exeData = new ArrayList<String>();
-		for (String key : FW_Constants.testDataSheet_data_LHM_LHM.keySet())
+		for (String key : FWConstants.testDataSheet_data_LHM_LHM.keySet())
 			exeData.add(key);
 
 		// Create CUSTOME testNG.xml

@@ -6,7 +6,7 @@ import java.util.LinkedHashMap;
 
 import in.ibm.chirra.saf.excelHandle.ExcelWork;
 
-public class FW_Constants {
+public class FWConstants {
 
 	public static String htmlReport_resultsFolderPath = "src/main/resources/Results/";
 	private final static String CONFIGFILEPATH = "src/main/resources/Config/Config.xlsx";
@@ -36,10 +36,6 @@ public class FW_Constants {
 		isParallelExecution = configFileData_LHM.get("Is_Parallel_Execution");
 		parallelExecutionCount = configFileData_LHM.get("Parallel_Execution_Count");
 
-		testDataSheetNames = ExcelWork.getAllSheetNames(TESTDATAFILEPATH);
-
-		System.out.println("testDataSheetNames : " + testDataSheetNames);
-
 		System.out.println("configFileData_LHM : " + configFileData_LHM);
 	}
 	
@@ -54,6 +50,8 @@ public class FW_Constants {
 		uniqueKeys_AL.add("ClassName");
 		uniqueKeys_AL.add("TestCaseID");
 		uniqueKeys_AL.add("Browser");
+		
+		testDataSheetNames = ExcelWork.getAllSheetNames(TESTDATAFILEPATH);
 		String[] testDataSheetNames_split = testDataSheetNames.split(",");
 		testDataSheet_data_LHM_LHM = new LinkedHashMap<String, LinkedHashMap<String, String>>();
 

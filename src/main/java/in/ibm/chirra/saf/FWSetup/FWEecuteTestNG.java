@@ -6,7 +6,7 @@ import in.ibm.chirra.saf.driverSetup.DriverSetup;
 /**
  * The Class FW_Eecute_testNG.
  */
-public class FW_Eecute_testNG {
+public class FWEecuteTestNG {
 	
 	/**
 	 * Run frame work.
@@ -14,7 +14,7 @@ public class FW_Eecute_testNG {
 	@Test
 	public void runFrameWork() {
 		
-		FW_DataLoad obj = new FW_DataLoad();
+		FWDataLoad obj = new FWDataLoad();
 		obj.fw_executeMethod();
 	}
 }
