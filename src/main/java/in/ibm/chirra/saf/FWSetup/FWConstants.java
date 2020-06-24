@@ -18,6 +18,8 @@ public class FWConstants {
 	public static int maxWaitTimeForElement = 0;
 	public static String testDataSheetNames = "";
 	public static String wantToReRunFailedTestCasesOnce = "";
+	
+	public static String driverPath = "";
 
 	/**
 	 * Load config sheet info.

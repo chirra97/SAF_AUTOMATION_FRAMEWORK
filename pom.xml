@@ -6,8 +6,6 @@
 	<artifactId>selenium.automation.framework</artifactId>
 	<version>1.0</version>
 
-
-
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>

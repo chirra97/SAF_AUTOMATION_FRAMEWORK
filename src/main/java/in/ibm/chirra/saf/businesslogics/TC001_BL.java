@@ -1,6 +1,6 @@
 package in.ibm.chirra.saf.businesslogics;
 
-import in.ibm.chirra.saf.FWSetup.FW_ClassRefObjetcs;
+import in.ibm.chirra.saf.FWSetup.FWGlobalReferenceClass;
 import in.ibm.chirra.saf.elementActions.ElementActions;
 import in.ibm.chirra.saf.pageObjects.LoginPage;
 
@@ -10,7 +10,7 @@ public class TC001_BL {
 	LoginPage loginpageObj = new LoginPage();
 	
 
-	public TC001_BL(FW_ClassRefObjetcs fwClassRefObj) {
+	public TC001_BL(FWGlobalReferenceClass fwClassRefObj) {
 		actObj = new ElementActions(fwClassRefObj);
 	}
 

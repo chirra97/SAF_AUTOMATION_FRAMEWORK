@@ -1,11 +1,13 @@
 package in.ibm.chirra.saf.FWSetup;
 
+import org.apache.commons.io.FileUtils;
 import org.testng.TestNG;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import in.ibm.chirra.saf.report.HTMLReport;
+import in.ibm.chirra.saf.utilities.CustomCode;
 import in.ibm.chirra.saf.utilities.DateTimeWork;
 import in.ibm.chirra.saf.utilities.FileDirectoryWork;
 
@@ -27,9 +29,9 @@ public class FWDataLoad {
 	/**
 	 * Adds the test and class.
 	 *
-	 * @param doc the document
+	 * @param doc           the document
 	 * @param parentElement the parent element
-	 * @param className the class name
+	 * @param className     the class name
 	 * @param TCID
 	 * @param browser
 	 * @return the element
@@ -203,10 +205,25 @@ public class FWDataLoad {
 		}
 	}
 
+	private static boolean copyFilesToTempDriversFolder() throws IOException {
+		try {
+			FWConstants.driverPath = CustomCode.getTempFolderPath() + "\\Drivers";
+			File tempDriversFolderPathObj = new File(FWConstants.driverPath);
+			if (!tempDriversFolderPathObj.exists()) {
+				if (new File("Drivers").exists())
+					FileUtils.copyDirectory(new File("Drivers"), new File(FWConstants.driverPath));
+			}
+		} catch (IOException e) {
+		}
+		return true;
+	}
+
 	/**
 	 * Fw execute method.
+	 * 
+	 * @throws IOException
 	 */
-	public void fw_executeMethod() {
+	public void fw_executeMethod() throws IOException {
 
 		// Close all drivers from Task Manager
 		killAllDrivers();
@@ -220,6 +237,9 @@ public class FWDataLoad {
 
 		// Load ALL Test Data sheets data
 		FWConstants.loadTestDataSheetsData();
+
+		// Copy Drivers folder to Temp folder path
+		copyFilesToTempDriversFolder();
 
 		ArrayList<String> exeData = new ArrayList<String>();
 		for (String key : FWConstants.testDataSheet_data_LHM_LHM.keySet())

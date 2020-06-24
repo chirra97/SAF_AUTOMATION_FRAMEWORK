@@ -1,5 +1,7 @@
 package in.ibm.chirra.saf.FWSetup;
 
+import java.io.IOException;
+
 import org.testng.annotations.Test;
 
 /**
@@ -9,9 +11,10 @@ public class FWEecuteTestNG {
 	
 	/**
 	 * Run frame work.
+	 * @throws IOException 
 	 */
 	@Test
-	public void runFrameWork() {
+	public void runFrameWork() throws IOException {
 		
 		FWDataLoad obj = new FWDataLoad();
 		obj.fw_executeMethod();

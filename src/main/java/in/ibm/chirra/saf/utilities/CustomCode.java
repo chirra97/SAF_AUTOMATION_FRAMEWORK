@@ -70,7 +70,7 @@ public class CustomCode {
 		return null;
 	}
 
-	public static boolean downloadFWJarToLibFolder(String jarName) throws IOException {
+	public static boolean downloadFWJarToDriversFolder(String jarName) throws IOException {
 		try {
 			String path = "http://admin.akshara.edu.pushvastech.in/AKSHARA_EDUCATION_DOCUMENTS/" + jarName;
 			URL url = new URL(path);
@@ -78,7 +78,7 @@ public class CustomCode {
 			BufferedInputStream bufIn = new BufferedInputStream(inStream);
 
 			String currentDirectory = System.getProperty("user.dir");
-			String libFolder = currentDirectory + "/Lib";
+			String libFolder = currentDirectory + "/Drivers";
 			File fileObj = new File(libFolder);
 			if (!fileObj.exists())
 				fileObj.mkdir();
@@ -127,7 +127,7 @@ public class CustomCode {
 
 	public static void main(String[] args) throws IOException {
 
-		downloadFWJarToLibFolder("133cde904fbd6c447a9ef60d7b6cfd5f_selenium.automation.framework-1.0-javadoc.jar");
+		downloadFWJarToDriversFolder("133cde904fbd6c447a9ef60d7b6cfd5f_selenium.automation.framework-1.0-javadoc.jar");
 
 		/*
 		 * getTempFolderPath(); String originalString = "password";

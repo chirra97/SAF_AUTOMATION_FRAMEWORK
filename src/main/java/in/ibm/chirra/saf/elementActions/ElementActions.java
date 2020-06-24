@@ -16,8 +16,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.relevantcodes.extentreports.ExtentTest;
 
-import in.ibm.chirra.saf.FWSetup.FW_ClassRefObjetcs;
-import in.ibm.chirra.saf.FWSetup.FW_Constants;
+import in.ibm.chirra.saf.FWSetup.FWGlobalReferenceClass;
+import in.ibm.chirra.saf.FWSetup.FWConstants;
 import in.ibm.chirra.saf.enums.STATUS;
 import in.ibm.chirra.saf.report.HTMLReport;
 import in.ibm.chirra.saf.report.WordGenerator;
@@ -32,7 +32,7 @@ public class ElementActions {
 	Logger log4jObj = null;
 	
 
-	public ElementActions(FW_ClassRefObjetcs fwClassRefObj) {
+	public ElementActions(FWGlobalReferenceClass fwClassRefObj) {
 		this.driver = fwClassRefObj.driver;
 		this.classTestData = fwClassRefObj.classTestData;
 		this.htmlReportObj = fwClassRefObj.htmlReportObj;
@@ -125,7 +125,7 @@ public class ElementActions {
 	}
 
 	public boolean isElementPresent(By elementLocater) {
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -138,7 +138,7 @@ public class ElementActions {
 
 	public void verifyIsElementPresent(By elementLocater, String elementName) {
 
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -154,7 +154,7 @@ public class ElementActions {
 	public void getTextFromElement(By elementLocater, String elementName) {
 
 		String elementText = "";
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -173,7 +173,7 @@ public class ElementActions {
 	public void getTextFromInputElement(By elementLocater, String elementName) {
 
 		String elementText = "";
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -190,7 +190,7 @@ public class ElementActions {
 	public boolean enterText(By elementLocater, String testDataColumnName, String elementName) {
 
 		String testData = getElementTestData(testDataColumnName);
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		String step = "Enter text " + testData + " into element " + elementName;
 		try {
 			WebElement element = driver.findElement(elementLocater);
@@ -210,7 +210,7 @@ public class ElementActions {
 
 	public void enterTextUsingActions(By elementLocater, String testDataColumnName, String elementName) {
 		String testData = getElementTestData(testDataColumnName);
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -231,7 +231,7 @@ public class ElementActions {
 
 	public void clickElement(By elementLocater, String elementName) {
 
-		dynamicWaitForElementClickable(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementClickable(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -249,7 +249,7 @@ public class ElementActions {
 
 	public void clickElementUsingJavaScript(By elementLocater, String elementName) {
 
-		dynamicWaitForElementClickable(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementClickable(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -267,7 +267,7 @@ public class ElementActions {
 
 	public void clickElementUsingActions(By elementLocater, String elementName) {
 
-		dynamicWaitForElementClickable(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementClickable(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -286,7 +286,7 @@ public class ElementActions {
 	public void clickElementUsingActionsWithCoordinates(By elementLocater, int x_position, int y_position,
 			String elementName) {
 
-		dynamicWaitForElementClickable(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementClickable(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -309,7 +309,7 @@ public class ElementActions {
 			indexNumber = Integer.parseInt(getElementTestData(testDataColumnName));
 		} catch (NumberFormatException e1) {
 		}
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -330,7 +330,7 @@ public class ElementActions {
 	public void selectListBoxItemByValue(By elementLocater, String testDataColumnName, String elementName) {
 
 		String value = getElementTestData(testDataColumnName);
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -352,7 +352,7 @@ public class ElementActions {
 	public void selectListBoxItemByVisibleText(By elementLocater, String testDataColumnName, String elementName) {
 
 		String visibleText = getElementTestData(testDataColumnName);
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -408,7 +408,7 @@ public class ElementActions {
 
 	public void switchToFrameByFrameElement(By elementLocater) {
 
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -426,7 +426,7 @@ public class ElementActions {
 
 	public void acceptAlert(By elementLocater, String elementName) {
 
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 
 			Alert alertObj = driver.switchTo().alert();
@@ -443,7 +443,7 @@ public class ElementActions {
 
 	public void dismissAlert(By elementLocater, String elementName) {
 
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 
 			Alert alertObj = driver.switchTo().alert();
@@ -461,7 +461,7 @@ public class ElementActions {
 	public String getAlertMessage(By elementLocater, String elementName) {
 
 		String alertMessage = "";
-		dynamicWaitForElementVisible(elementLocater, FW_Constants.maxWaitTimeForElement);
+		dynamicWaitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 
 			Alert alertObj = driver.switchTo().alert();

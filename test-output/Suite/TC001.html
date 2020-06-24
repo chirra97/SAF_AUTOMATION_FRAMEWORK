@@ -57,9 +57,9 @@ function toggleAllBoxes() {
 <tr>
 <td>Tests passed/Failed/Skipped:</td><td>0/0/1</td>
 </tr><tr>
-<td>Started on:</td><td>Sat Jun 20 14:04:58 IST 2020</td>
+<td>Started on:</td><td>Wed Jun 24 17:15:25 IST 2020</td>
 </tr>
-<tr><td>Total time:</td><td>21 seconds (21496 ms)</td>
+<tr><td>Total time:</td><td>4 seconds (4373 ms)</td>
 </tr><tr>
 <td>Included groups:</td><td></td>
 </tr><tr>
@@ -75,18 +75,54 @@ function toggleAllBoxes() {
 <td><b>Instance</b></td>
 </tr>
 <tr>
-<td title='in.ibm.chirra.saf.test.Test_1.beforeClassTestAnnLoad()'><b>beforeClassTestAnnLoad</b><br>Test class: in.ibm.chirra.saf.test.Test_1<br>Parameters: Test_1, TC001, Chrome</td>
-<td><div><pre>java.lang.NullPointerException
-	at in.ibm.chirra.saf.driverSetup.DriverSetup.loadDriver(DriverSetup.java:96)
-	at in.ibm.chirra.saf.driverSetup.DriverSetup.beforeClassTestAnnLoad(DriverSetup.java:73)
+<td title='in.ibm.chirra.saf.test.Test_1.loadClassTestDataAndHtmlAndLogReportInitiation()'><b>loadClassTestDataAndHtmlAndLogReportInitiation</b><br>Test class: in.ibm.chirra.saf.test.Test_1<br>Parameters: Test_1, TC001, Chrome</td>
+<td><div><pre>org.openqa.selenium.NoSuchWindowException: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.106)
+Build info: version: &apos;3.141.59&apos;, revision: &apos;e82be7d358&apos;, time: &apos;2018-11-14T08:17:03&apos;
+System info: host: &apos;LAPTOP-U74Q3VS2&apos;, ip: &apos;9.85.100.164&apos;, os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;1.8.0_251&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 83.0.4103.106, chrome: {chromedriverVersion: 83.0.4103.39 (ccbf011cb2d2b..., userDataDir: C:\Users\SURESH~1\AppData\L...}, goog:chromeOptions: {debuggerAddress: localhost:65327}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:virtualAuthenticators: true}
+Session ID: b1c5e7594f2b1a990b00a7f6bac4a58a
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:187)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:122)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:49)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:609)
+	at org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions$RemoteWindow.maximize(RemoteWebDriver.java:837)
+	at in.ibm.chirra.saf.driverSetup.DriverSetup.launchChromeBrowser(DriverSetup.java:148)
+	at in.ibm.chirra.saf.driverSetup.DriverSetup.driverSetup(DriverSetup.java:117)
+	at in.ibm.chirra.saf.driverSetup.DriverSetup.loadClassTestDataAndHtmlAndLogReportInitiation(DriverSetup.java:76)
 	at java.util.concurrent.FutureTask.run(Unknown Source)
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
 	at java.lang.Thread.run(Unknown Source)
-... Removed 16 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace1778232964", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
-<div class='stack-trace' id='stack-trace1778232964'><pre>java.lang.NullPointerException
-	at in.ibm.chirra.saf.driverSetup.DriverSetup.loadDriver(DriverSetup.java:96)
-	at in.ibm.chirra.saf.driverSetup.DriverSetup.beforeClassTestAnnLoad(DriverSetup.java:73)
+... Removed 20 stack frames</pre></div><a href='#' onClick='toggleBox("stack-trace587355114", this, "Click to show all stack frames", "Click to hide stack frames")'>Click to show all stack frames</a>
+<div class='stack-trace' id='stack-trace587355114'><pre>org.openqa.selenium.NoSuchWindowException: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=83.0.4103.106)
+Build info: version: &apos;3.141.59&apos;, revision: &apos;e82be7d358&apos;, time: &apos;2018-11-14T08:17:03&apos;
+System info: host: &apos;LAPTOP-U74Q3VS2&apos;, ip: &apos;9.85.100.164&apos;, os.name: &apos;Windows 10&apos;, os.arch: &apos;amd64&apos;, os.version: &apos;10.0&apos;, java.version: &apos;1.8.0_251&apos;
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 83.0.4103.106, chrome: {chromedriverVersion: 83.0.4103.39 (ccbf011cb2d2b..., userDataDir: C:\Users\SURESH~1\AppData\L...}, goog:chromeOptions: {debuggerAddress: localhost:65327}, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:virtualAuthenticators: true}
+Session ID: b1c5e7594f2b1a990b00a7f6bac4a58a
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at sun.reflect.NativeConstructorAccessorImpl.newInstance(Unknown Source)
+	at sun.reflect.DelegatingConstructorAccessorImpl.newInstance(Unknown Source)
+	at java.lang.reflect.Constructor.newInstance(Unknown Source)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.createException(W3CHttpResponseCodec.java:187)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:122)
+	at org.openqa.selenium.remote.http.W3CHttpResponseCodec.decode(W3CHttpResponseCodec.java:49)
+	at org.openqa.selenium.remote.HttpCommandExecutor.execute(HttpCommandExecutor.java:158)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:83)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:552)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:609)
+	at org.openqa.selenium.remote.RemoteWebDriver$RemoteWebDriverOptions$RemoteWindow.maximize(RemoteWebDriver.java:837)
+	at in.ibm.chirra.saf.driverSetup.DriverSetup.launchChromeBrowser(DriverSetup.java:148)
+	at in.ibm.chirra.saf.driverSetup.DriverSetup.driverSetup(DriverSetup.java:117)
+	at in.ibm.chirra.saf.driverSetup.DriverSetup.loadClassTestDataAndHtmlAndLogReportInitiation(DriverSetup.java:76)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
@@ -109,7 +145,7 @@ function toggleAllBoxes() {
 	at java.lang.Thread.run(Unknown Source)
 </pre></div></td>
 <td>0</td>
-<td>in.ibm.chirra.saf.test.Test_1@7d61eb55</td></tr>
+<td>in.ibm.chirra.saf.test.Test_1@1f75a668</td></tr>
 </table><p>
 <table width='100%' border='1' class='invocation-skipped'>
 <tr><td colspan='4' align='center'><b>SKIPPED CONFIGURATIONS</b></td></tr>
@@ -119,10 +155,10 @@ function toggleAllBoxes() {
 <td><b>Instance</b></td>
 </tr>
 <tr>
-<td title='in.ibm.chirra.saf.test.Test_1.afterClassTestAnnLoad()'><b>afterClassTestAnnLoad</b><br>Test class: in.ibm.chirra.saf.test.Test_1</td>
+<td title='in.ibm.chirra.saf.test.Test_1.closeBrowser()'><b>closeBrowser</b><br>Test class: in.ibm.chirra.saf.test.Test_1</td>
 <td></td>
 <td>0</td>
-<td>in.ibm.chirra.saf.test.Test_1@7d61eb55</td></tr>
+<td>in.ibm.chirra.saf.test.Test_1@1f75a668</td></tr>
 </table><p>
 <table width='100%' border='1' class='invocation-skipped'>
 <tr><td colspan='4' align='center'><b>SKIPPED TESTS</b></td></tr>
@@ -135,7 +171,7 @@ function toggleAllBoxes() {
 <td title='in.ibm.chirra.saf.test.Test_1.sampleTest1()'><b>sampleTest1</b><br>Test class: in.ibm.chirra.saf.test.Test_1</td>
 <td></td>
 <td>0</td>
-<td>in.ibm.chirra.saf.test.Test_1@7d61eb55</td></tr>
+<td>in.ibm.chirra.saf.test.Test_1@1f75a668</td></tr>
 </table><p>
 </body>
 </html>

@@ -3,7 +3,7 @@ package in.ibm.chirra.saf.excelHandle;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import in.ibm.chirra.saf.FWSetup.FW_Constants;
+import in.ibm.chirra.saf.FWSetup.FWConstants;
 
 import java.io.*;
 import java.util.ArrayList;
