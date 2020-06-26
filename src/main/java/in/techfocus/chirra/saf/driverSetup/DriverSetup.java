@@ -33,7 +33,7 @@ import in.techfocus.chirra.saf.utilities.DateTimeWork;
 public class DriverSetup {
 
 	/** The fw class ref obj. */
-	public FWGlobalReferenceClass fwClassRefObj = null;
+	public FWGlobalReferenceClass fwGlobalReferenceClassObj = null;
 
 	/**
 	 * Load class test data and html and log report initiation.
@@ -119,7 +119,7 @@ public class DriverSetup {
 				ExtentTest reportTCObject = htmlReportObj.addTestCaseToReport(TC_ID, TC_ID);
 
 				// Load all framework class Reference objects
-				fwClassRefObj = new FWGlobalReferenceClass(driver, classTestData_LHM, htmlReportObj, reportTCObject,
+				fwGlobalReferenceClassObj = new FWGlobalReferenceClass(driver, classTestData_LHM, htmlReportObj, reportTCObject,
 						wordDocGenerateObj, log4jObj);
 
 				htmlReportObj.addTestStepToReportWithScreenShot(driver, reportTCObject, wordDocGenerateObj, "PASS",

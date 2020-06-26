@@ -70,6 +70,7 @@ public class ElementActions {
 	 * @param requiredScreenshot_YESNO the required screenshot yes no
 	 * @param stepName                 the step name
 	 * @param stepDetails              the step details
+	 * @param errorMessage             the error message
 	 */
 	public void addStepsToReport(STATUS stepStatus_PASSFAIL, STATUS requiredScreenshot_YESNO, String stepName,
 			String stepDetails, String... errorMessage) {
@@ -174,6 +175,16 @@ public class ElementActions {
 		}
 		return false;
 	}
+	
+	public boolean waitForElementPresent(By locater, int waitTimeInSeconds) {
+		try {
+			WebDriverWait waitObj = new WebDriverWait(driver, waitTimeInSeconds);
+			waitObj.until(ExpectedConditions.presenceOfElementLocated(locater));
+			return true;
+		} catch (Exception e) {
+		}
+		return false;
+	}
 
 	/**
 	 * Dynamic wait for element clickable.
@@ -224,6 +235,42 @@ public class ElementActions {
 		return true;
 	}
 
+	/** The wait time in seconds. */
+	int waitTimeInSeconds = FWConstants.maxWaitTimeForElement;
+
+	/** The want to add test step to report. */
+	boolean wantToAddTestStepToReport = true;
+
+	/** The action flag. */
+	boolean actionFlag = false;
+
+	/**
+	 * Sets the wait time and add to report.
+	 *
+	 * @param waitTimeSec__addToReportYESNO the new wait time and add to report
+	 */
+	public void setWaitTimeAndAddToReport(String... waitTimeSec__addToReportYESNO) {
+
+		actionFlag = false;
+		if (waitTimeSec__addToReportYESNO.length == 2) {
+			try {
+				waitTimeInSeconds = Integer.parseInt(waitTimeSec__addToReportYESNO[0].trim());
+			} catch (NumberFormatException e) {
+			}
+			try {
+				wantToAddTestStepToReport = Boolean.parseBoolean(waitTimeSec__addToReportYESNO[1].trim());
+			} catch (Exception e) {
+			}
+		} else if (waitTimeSec__addToReportYESNO.length == 1) {
+			try {
+				waitTimeInSeconds = Integer.parseInt(waitTimeSec__addToReportYESNO[0].trim());
+			} catch (NumberFormatException e1) {
+			}
+		}
+		// Set Wait time for element
+		setCustomWaitTimeForElement(waitTimeInSeconds);
+	}
+
 	/**
 	 * Checks if is element present.
 	 *
@@ -231,10 +278,12 @@ public class ElementActions {
 	 * @return true, if is element present
 	 */
 	public boolean isElementPresent(By elementLocater) {
-		waitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
+		waitForElementPresent(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
+			Thread.sleep(250);
+			removeHighlightElement(element);
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -414,26 +463,8 @@ public class ElementActions {
 	public boolean enterText(By elementLocater, String testDataColumnName, String elementName,
 			String... waitTimeSec__addToReportYESNO) {
 
-		int waitTimeInSeconds = FWConstants.maxWaitTimeForElement;
-		boolean wantToAddTestStepToReport = true;
-		boolean actionFlag = false;
-		if (waitTimeSec__addToReportYESNO.length == 2) {
-			try {
-				waitTimeInSeconds = Integer.parseInt(waitTimeSec__addToReportYESNO[0].trim());
-			} catch (NumberFormatException e) {
-			}
-			try {
-				wantToAddTestStepToReport = Boolean.parseBoolean(waitTimeSec__addToReportYESNO[1].trim());
-			} catch (Exception e) {
-			}
-		} else if (waitTimeSec__addToReportYESNO.length == 1) {
-			try {
-				waitTimeInSeconds = Integer.parseInt(waitTimeSec__addToReportYESNO[0].trim());
-			} catch (NumberFormatException e1) {
-			}
-		}
-		// Set Wait time for element
-		setCustomWaitTimeForElement(waitTimeInSeconds);
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		String testData = getTestDataForElement(testDataColumnName);
 		String stepName = "Enter text " + testData + " into element " + elementName;
