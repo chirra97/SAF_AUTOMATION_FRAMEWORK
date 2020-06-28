@@ -91,7 +91,7 @@ public class FWDataLoad {
 		classesObj.appendChild(classObj);
 
 		attr = doc.createAttribute("name");
-		attr.setValue("in.ibm.chirra.saf.test." + className);
+		attr.setValue("com.techfocus.chirra.saf.test." + className);
 		classObj.setAttributeNode(attr);
 
 		return parentElement;

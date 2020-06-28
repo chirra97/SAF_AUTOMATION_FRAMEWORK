@@ -2,7 +2,7 @@
 <suite name="Suite" >
 	<test name="TC001">
 		<classes>
-			<class name="in.ibm.chirra.saf.FWSetup.FWEecuteTestNG" />
+			<class name="com.techfocus.chirra.saf.FWSetup.FWEecuteTestNG" />
 		</classes>
 	</test>
 </suite>
