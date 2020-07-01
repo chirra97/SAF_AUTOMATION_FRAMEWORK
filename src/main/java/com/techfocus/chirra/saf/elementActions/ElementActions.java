@@ -1,10 +1,11 @@
 package com.techfocus.chirra.saf.elementActions;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-
 import org.apache.log4j.Logger;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -16,7 +17,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.relevantcodes.extentreports.ExtentTest;
 import com.techfocus.chirra.saf.FWSetup.FWConstants;
 import com.techfocus.chirra.saf.FWSetup.FWGlobalReferenceClass;
@@ -31,22 +31,22 @@ import com.techfocus.chirra.saf.report.WordGenerator;
 public class ElementActions {
 
 	/** The driver. */
-	WebDriver driver = null;
+	private WebDriver driver = null;
 
 	/** The class test data. */
-	LinkedHashMap<String, String> classTestData = null;
+	private LinkedHashMap<String, String> classTestData = null;
 
 	/** The html report obj. */
-	HTMLReport htmlReportObj = null;
+	private HTMLReport htmlReportObj = null;
 
 	/** The report TC object. */
-	ExtentTest reportTCObject = null;
+	private ExtentTest reportTCObject = null;
 
 	/** The word doc generate obj. */
-	WordGenerator wordDocGenerateObj = null;
+	private WordGenerator wordDocGenerateObj = null;
 
 	/** The log 4 j obj. */
-	Logger log4jObj = null;
+	private Logger log4jObj = null;
 
 	/**
 	 * Instantiates a new element actions.
@@ -54,6 +54,7 @@ public class ElementActions {
 	 * @param fwClassRefObj the fw class ref obj
 	 */
 	public ElementActions(FWGlobalReferenceClass fwClassRefObj) {
+
 		this.driver = fwClassRefObj.driver;
 		this.classTestData = fwClassRefObj.classTestData;
 		this.htmlReportObj = fwClassRefObj.htmlReportObj;
@@ -120,7 +121,7 @@ public class ElementActions {
 	 * @param testDataColumnName the test data column name
 	 * @return the element test data
 	 */
-	public String getTestDataForElement(String testDataColumnName) {
+	private String getTestDataForElement(String testDataColumnName) {
 		if (classTestData.containsKey(testDataColumnName))
 			return classTestData.get(testDataColumnName);
 		else
@@ -132,7 +133,7 @@ public class ElementActions {
 	 *
 	 * @return true, if successful
 	 */
-	public boolean setDefaultElementWaitTime() {
+	private boolean setDefaultElementWaitTime() {
 		driver.manage().timeouts().implicitlyWait(FWConstants.maxWaitTimeForElement, TimeUnit.SECONDS);
 		return true;
 	}
@@ -143,7 +144,7 @@ public class ElementActions {
 	 * @param waitTimeInSeconds the wait time in seconds
 	 * @return true, if successful
 	 */
-	public boolean setCustomWaitTimeForElement(int waitTimeInSeconds) {
+	private boolean setCustomWaitTimeForElement(int waitTimeInSeconds) {
 		driver.manage().timeouts().implicitlyWait(waitTimeInSeconds, TimeUnit.SECONDS);
 		return true;
 	}
@@ -153,7 +154,7 @@ public class ElementActions {
 	 *
 	 * @return true, if successful
 	 */
-	public boolean disableElementWaitTime() {
+	private boolean disableElementWaitTime() {
 		driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
 		return true;
 	}
@@ -248,20 +249,20 @@ public class ElementActions {
 	}
 
 	/** The wait time in seconds. */
-	int waitTimeInSeconds = FWConstants.maxWaitTimeForElement;
+	private int waitTimeInSeconds = FWConstants.maxWaitTimeForElement;
 
 	/** The want to add test step to report. */
-	boolean wantToAddTestStepToReport = true;
+	private boolean wantToAddTestStepToReport = true;
 
 	/** The action flag. */
-	boolean actionFlag = false;
+	private boolean actionFlag = false;
 
 	/**
 	 * Sets the wait time and add to report.
 	 *
 	 * @param waitTimeSec__addToReportYESNO the new wait time and add to report
 	 */
-	public void setWaitTimeAndAddToReport(String... waitTimeSec__addToReportYESNO) {
+	private void setWaitTimeAndAddToReport(String... waitTimeSec__addToReportYESNO) {
 
 		if (waitTimeSec__addToReportYESNO.length == 2) {
 			try {
@@ -340,6 +341,8 @@ public class ElementActions {
 			highlightElement(element);
 			if (element.isEnabled() && wantToAddTestStepToReport)
 				addStepsToReport(STATUS.PASS, STATUS.YES, stepName, passStep);
+			else if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.FAIL, STATUS.YES, stepName, failStep);
 			actionFlag = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -373,6 +376,8 @@ public class ElementActions {
 			highlightElement(element);
 			if (element.isDisplayed() && wantToAddTestStepToReport)
 				addStepsToReport(STATUS.PASS, STATUS.YES, stepName, passStep);
+			else if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.FAIL, STATUS.YES, stepName, passStep);
 			actionFlag = true;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -432,7 +437,7 @@ public class ElementActions {
 
 		String elementText = "";
 		String stepName = "Get element " + elementName + " text";
-		String failStep = "Unable to capture Element " + elementName + " text";
+		String failStep = "Unable to capture text from Element " + elementName;
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -714,9 +719,11 @@ public class ElementActions {
 	/**
 	 * Select list box option by index.
 	 *
-	 * @param elementLocater     the element locater
-	 * @param testDataColumnName the test data column name
-	 * @param elementName        the element name
+	 * @param elementLocater                the element locater
+	 * @param testDataColumnName            the test data column name
+	 * @param elementName                   the element name
+	 * @param waitTimeSec__addToReportYESNO the wait time sec add to report YESNO
+	 * @return true, if successful
 	 */
 	public boolean selectListBoxOptionByIndex(By elementLocater, String testDataColumnName, String elementName,
 			String... waitTimeSec__addToReportYESNO) {
@@ -759,7 +766,11 @@ public class ElementActions {
 	 * @param testDataColumnName the test data column name
 	 * @param elementName        the element name
 	 */
-	public void selectListBoxItemByValue(By elementLocater, String testDataColumnName, String elementName) {
+	public void selectListBoxItemByValue(By elementLocater, String testDataColumnName, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		String value = getTestDataForElement(testDataColumnName);
 		waitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
@@ -788,7 +799,11 @@ public class ElementActions {
 	 * @param testDataColumnName the test data column name
 	 * @param elementName        the element name
 	 */
-	public void selectListBoxItemByVisibleText(By elementLocater, String testDataColumnName, String elementName) {
+	public void selectListBoxItemByVisibleText(By elementLocater, String testDataColumnName, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		String visibleText = getTestDataForElement(testDataColumnName);
 		waitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
@@ -817,7 +832,11 @@ public class ElementActions {
 	 * @param elementName    the element name
 	 * @return the first selected item text from list box
 	 */
-	public String getFirstSelectedItemTextFromListBox(By elementLocater, String elementName) {
+	public String getFirstSelectedItemTextFromListBox(By elementLocater, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		String optionText = "";
 		String stepName = "Get Listbox " + elementName + " selected Item text";
@@ -849,7 +868,11 @@ public class ElementActions {
 	 * @param elementName    the element name
 	 * @return the all selected item text from list box
 	 */
-	public ArrayList<String> getAllSelectedItemTextFromListBox(By elementLocater, String elementName) {
+	public ArrayList<String> getAllSelectedItemTextFromListBox(By elementLocater, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		List<WebElement> optionText = null;
 		ArrayList<String> allOptionsText = new ArrayList<String>();
@@ -887,7 +910,11 @@ public class ElementActions {
 	 * @param elementName    the element name
 	 * @return the all items text from list box
 	 */
-	public ArrayList<String> getAllItemsTextFromListBox(By elementLocater, String elementName) {
+	public ArrayList<String> getAllItemsTextFromListBox(By elementLocater, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		List<WebElement> optionText = null;
 		ArrayList<String> allOptionsText = new ArrayList<String>();
@@ -923,7 +950,10 @@ public class ElementActions {
 	 *
 	 * @param testDataColumnName the test data column name
 	 */
-	public void switchToFrameByFrameIndex(String testDataColumnName) {
+	public void switchToFrameByFrameIndex(String testDataColumnName, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		int frameIndexNumber = 0;
 		try {
@@ -948,7 +978,11 @@ public class ElementActions {
 	 *
 	 * @param testDataColumnName the test data column name
 	 */
-	public void switchToFrameByFrameName(String testDataColumnName) {
+	public void switchToFrameByFrameName(String testDataColumnName, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
 		String frameName = getTestDataForElement(testDataColumnName);
 		try {
 			driver.switchTo().frame(frameName);
@@ -968,7 +1002,10 @@ public class ElementActions {
 	 *
 	 * @param elementLocater the element locater
 	 */
-	public void switchToFrameByFrameElement(By elementLocater) {
+	public void switchToFrameByFrameElement(By elementLocater, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		waitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
@@ -992,9 +1029,11 @@ public class ElementActions {
 	 * @param elementLocater the element locater
 	 * @param elementName    the element name
 	 */
-	public void acceptAlert(By elementLocater, String elementName) {
+	public void acceptAlert(String... waitTimeSec__addToReportYESNO) {
 
-		waitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
 		try {
 
 			Alert alertObj = driver.switchTo().alert();
@@ -1015,9 +1054,11 @@ public class ElementActions {
 	 * @param elementLocater the element locater
 	 * @param elementName    the element name
 	 */
-	public void dismissAlert(By elementLocater, String elementName) {
+	public void dismissAlert(String... waitTimeSec__addToReportYESNO) {
 
-		waitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
 		try {
 
 			Alert alertObj = driver.switchTo().alert();
@@ -1039,10 +1080,12 @@ public class ElementActions {
 	 * @param elementName    the element name
 	 * @return the alert message
 	 */
-	public String getAlertMessage(By elementLocater, String elementName) {
+	public String getAlertMessage(String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		String alertMessage = "";
-		waitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
 		try {
 
 			Alert alertObj = driver.switchTo().alert();
@@ -1063,7 +1106,11 @@ public class ElementActions {
 	 *
 	 * @param testDataColumnName the test data column name
 	 */
-	public void switchToWindowByFrameIndex(String testDataColumnName) {
+	public void switchToWindowByFrameIndex(String testDataColumnName, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
 		int windowIndexNumber = 0;
 		try {
 			windowIndexNumber = Integer.parseInt(getTestDataForElement(testDataColumnName));
@@ -1086,7 +1133,10 @@ public class ElementActions {
 	/**
 	 * Switch to latest window.
 	 */
-	public void switchToLatestWindow() {
+	public void switchToLatestWindow(String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		try {
 			int count = driver.getWindowHandles().toArray().length;
@@ -1104,7 +1154,10 @@ public class ElementActions {
 	/**
 	 * Switch to main window.
 	 */
-	public void switchToMainWindow() {
+	public void switchToMainWindow(String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		try {
 			driver.switchTo().defaultContent();
@@ -1123,7 +1176,10 @@ public class ElementActions {
 	 * @param x_position the x position
 	 * @param y_position the y position
 	 */
-	public void moveCursorUsingActions(int x_position, int y_position) {
+	public void moveCursorUsingActions(int x_position, int y_position, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		try {
 			Actions actObj = new Actions(driver);
@@ -1138,6 +1194,206 @@ public class ElementActions {
 					"Unable to move to Cursor to X - position " + x_position + " Y - position " + y_position);
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Move to element using actions.
+	 *
+	 * @param elementLocater the element locater
+	 * @param elementName    the element name
+	 */
+	public void moveToElementUsingActions(By elementLocater, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
+		try {
+
+			WebElement element = driver.findElement(elementLocater);
+			Actions actObj = new Actions(driver);
+			actObj.moveToElement(element).build().perform();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Move to element with co ordinates using actions.
+	 *
+	 * @param elementLocater the element locater
+	 * @param elementName    the element name
+	 * @param xOffset        the x offset
+	 * @param yOffset        the y offset
+	 */
+	public void moveToElementWithCoOrdinatesUsingActions(By elementLocater, String elementName, int xOffset,
+			int yOffset, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
+		try {
+			WebElement element = driver.findElement(elementLocater);
+			Actions actObj = new Actions(driver);
+			actObj.moveToElement(element, xOffset, yOffset).build().perform();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Double click element using actions.
+	 *
+	 * @param elementLocater                the element locater
+	 * @param elementName                   the element name
+	 * @param waitTimeSec__addToReportYESNO the wait time sec add to report YESNO
+	 * @return true, if successful
+	 */
+	public boolean doubleClickElementUsingActions(By elementLocater, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
+		String stepName = "Double Click on " + elementName + " element";
+		String passStep = "Double clicked on Element " + elementName;
+		String failStep = "Unable to Double click on " + elementName + " element";
+		try {
+			WebElement element = driver.findElement(elementLocater);
+			highlightElement(element);
+			Actions actObj = new Actions(driver);
+			actObj.doubleClick(element).build().perform();
+			removeHighlightElement(element);
+			if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.PASS, STATUS.YES, stepName, passStep);
+			actionFlag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.FAIL, STATUS.YES, stepName, failStep, e.getMessage());
+			actionFlag = false;
+		}
+		setDefaultElementWaitTime();
+		return actionFlag;
+	}
+
+	/**
+	 * Right click element using actions.
+	 *
+	 * @param elementLocater                the element locater
+	 * @param elementName                   the element name
+	 * @param waitTimeSec__addToReportYESNO the wait time sec add to report YESNO
+	 * @return true, if successful
+	 */
+	public boolean rightClickElementUsingActions(By elementLocater, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
+		String stepName = "Right Click on " + elementName + " element";
+		String passStep = "Right clicked on Element " + elementName;
+		String failStep = "Unable to Right click on " + elementName + " element";
+		try {
+			WebElement element = driver.findElement(elementLocater);
+			highlightElement(element);
+			Actions actObj = new Actions(driver);
+			actObj.contextClick(element).build().perform();
+			removeHighlightElement(element);
+			if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.PASS, STATUS.YES, stepName, passStep);
+			actionFlag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.FAIL, STATUS.YES, stepName, failStep, e.getMessage());
+			actionFlag = false;
+		}
+		setDefaultElementWaitTime();
+		return actionFlag;
+	}
+
+	/**
+	 * Drag and drop using actions.
+	 *
+	 * @param sourceElementLocater          the source element locater
+	 * @param sourceElementName             the source element name
+	 * @param targetElementLocater          the target element locater
+	 * @param targetElementName             the target element name
+	 * @param waitTimeSec__addToReportYESNO the wait time sec add to report YESNO
+	 * @return true, if successful
+	 */
+	public boolean dragAndDropUsingActions(By sourceElementLocater, String sourceElementName, By targetElementLocater,
+			String targetElementName, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
+		String stepName = "Move the element " + sourceElementName + " to " + targetElementName;
+		String passStep = "Element element " + sourceElementName + " moved to " + targetElementName;
+		String failStep = "Unable to move the element " + sourceElementName + " to " + targetElementName;
+		try {
+			WebElement sourceElement = driver.findElement(sourceElementLocater);
+			highlightElement(sourceElement);
+			WebElement targetElement = driver.findElement(targetElementLocater);
+			highlightElement(targetElement);
+
+			Actions actObj = new Actions(driver);
+			actObj.dragAndDrop(sourceElement, targetElement).build().perform();
+
+			if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.PASS, STATUS.YES, stepName, passStep);
+			actionFlag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.FAIL, STATUS.YES, stepName, failStep, e.getMessage());
+			actionFlag = false;
+		}
+		setDefaultElementWaitTime();
+		return actionFlag;
+	}
+
+	/**
+	 * Drag and drop using actions.
+	 *
+	 * @param sourceElementLocater          the source element locater
+	 * @param sourceElementName             the source element name
+	 * @param xOffset_targetPosition        the x offset target position
+	 * @param yOffset_targetPosition        the y offset target position
+	 * @param waitTimeSec__addToReportYESNO the wait time sec add to report YESNO
+	 * @return true, if successful
+	 */
+	public boolean dragAndDropUsingActions(By sourceElementLocater, String sourceElementName,
+			int xOffset_targetPosition, int yOffset_targetPosition, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
+		String stepName = "Move the element " + sourceElementName + " to X - position " + xOffset_targetPosition
+				+ " and Y - Position " + yOffset_targetPosition;
+		String passStep = "Element element " + sourceElementName + " moved to X - position " + xOffset_targetPosition
+				+ " and Y - Position " + yOffset_targetPosition;
+		String failStep = "Unable to move the element " + sourceElementName + " to X - position "
+				+ xOffset_targetPosition + " and Y - Position " + yOffset_targetPosition;
+		try {
+			WebElement sourceElement = driver.findElement(sourceElementLocater);
+			highlightElement(sourceElement);
+
+			Actions actObj = new Actions(driver);
+			actObj.dragAndDropBy(sourceElement, xOffset_targetPosition, yOffset_targetPosition).build().perform();
+
+			if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.PASS, STATUS.YES, stepName, passStep);
+			actionFlag = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			if (wantToAddTestStepToReport)
+				addStepsToReport(STATUS.FAIL, STATUS.YES, stepName, failStep, e.getMessage());
+			actionFlag = false;
+		}
+		setDefaultElementWaitTime();
+		return actionFlag;
 	}
 
 	/**
@@ -1213,9 +1469,12 @@ public class ElementActions {
 	 * @param elementName    the element name
 	 * @return true, if successful
 	 */
-	public boolean removeReadOnlyAttribute(By elementLocater, String elementName) {
+	public boolean removeReadOnlyAttribute(By elementLocater, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
 
-		waitForElementVisible(elementLocater, FWConstants.maxWaitTimeForElement);
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+
 		try {
 			WebElement element = driver.findElement(elementLocater);
 			highlightElement(element);
@@ -1231,6 +1490,26 @@ public class ElementActions {
 	}
 
 	/**
+	 * Gets the matched element count.
+	 *
+	 * @param elementLocater the element locater
+	 * @return the matched element count
+	 */
+	public int getElementCount(By elementLocater, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+		int matchedElementCount = 0;
+		try {
+			matchedElementCount = driver.findElements(elementLocater).size();
+			return matchedElementCount;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
+
+	/**
 	 * Gets the attribute value.
 	 *
 	 * @param elementLocater the element locater
@@ -1238,7 +1517,11 @@ public class ElementActions {
 	 * @param attributeName  the attribute name
 	 * @return the attribute value
 	 */
-	public boolean getAttributeValue(By elementLocater, String elementName, String attributeName) {
+	public boolean getAttributeValue(By elementLocater, String elementName, String attributeName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		String attributeValue = "";
 		String stepName = "Get attribute " + attributeName + " value of element" + elementName;
@@ -1271,7 +1554,11 @@ public class ElementActions {
 	 * @param elementName    the element name
 	 * @return the table data
 	 */
-	public LinkedHashMap<Integer, LinkedHashMap<Integer, String>> getTableData(By elementLocater, String elementName) {
+	public LinkedHashMap<Integer, LinkedHashMap<Integer, String>> getTableData(By elementLocater, String elementName,
+			String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
 
 		LinkedHashMap<Integer, LinkedHashMap<Integer, String>> tableData_LHM = new LinkedHashMap<Integer, LinkedHashMap<Integer, String>>();
 		WebElement table = null;
@@ -1308,7 +1595,11 @@ public class ElementActions {
 	 *
 	 * @param testDataColumnName the test data column name
 	 */
-	public void openAndSwitchToNewTab(String testDataColumnName) {
+	public void openAndSwitchToNewTab(String testDataColumnName, String... waitTimeSec__addToReportYESNO) {
+
+		// Set Wait Time and Step add to report status
+		setWaitTimeAndAddToReport(waitTimeSec__addToReportYESNO);
+		
 		((JavascriptExecutor) driver).executeScript("window.open()");
 		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
 		driver.switchTo().window(tabs.get(1));
@@ -1357,5 +1648,130 @@ public class ElementActions {
 		} catch (Exception e) {
 		}
 	}
+
+	/**
+	 * Checks if is data in ascending order.
+	 *
+	 * @param data the data
+	 * @return true, if is data in ascending order
+	 */
+	private boolean checkDataInAscendingOrder(ArrayList<String> data) {
+
+		ArrayList<String> data_temp = new ArrayList<String>();
+		data_temp.addAll(data);
+
+		// Sort the data
+		Collections.sort(data);
+
+		boolean isDataInAscendingOrder = data_temp.equals(data);
+		return isDataInAscendingOrder;
+	}
+
+	/**
+	 * Verify is data in ascending order.
+	 *
+	 * @param data the data
+	 * @return true, if successful
+	 */
+	public boolean verifyIsDataInAscendingOrder(ArrayList<String> data) {
+
+		boolean isDataInAscendingOrder = checkDataInAscendingOrder(data);
+		return isDataInAscendingOrder;
+	}
+
+	/**
+	 * Verify is data in ascending order.
+	 *
+	 * @param data the data
+	 * @return true, if successful
+	 */
+	public boolean verifyIsDataInAscendingOrder(Set<String> data) {
+
+		ArrayList<String> data_AL = new ArrayList<String>(data);
+		boolean isDataInAscendingOrder = checkDataInAscendingOrder(data_AL);
+		return isDataInAscendingOrder;
+	}
+
+	/**
+	 * Verify is data in ascending order.
+	 *
+	 * @param data the data
+	 * @return true, if successful
+	 */
+	public boolean verifyIsDataInAssendingOrder(String[] data) {
+
+		ArrayList<String> data_AL = new ArrayList<String>();
+		for (int i = 0; i < data.length; i++)
+			data_AL.add(data[i]);
+
+		boolean isDataInAssendingOrder = checkDataInAscendingOrder(data_AL);
+		return isDataInAssendingOrder;
+	}
+
+	/**
+	 * Checks if is data in descending order.
+	 *
+	 * @param data the data
+	 * @return true, if is data in descending order
+	 */
+	private boolean checkDataInDescendingOrder(ArrayList<String> data) {
+
+		ArrayList<String> data_temp = new ArrayList<String>();
+		data_temp.addAll(data);
+
+		// Sort the data
+		Collections.sort(data, Collections.reverseOrder());
+
+		boolean isDataInDescendingOrder = data_temp.equals(data);
+		return isDataInDescendingOrder;
+	}
+
+	/**
+	 * Verify is data in descending order.
+	 *
+	 * @param data the data
+	 * @return true, if successful
+	 */
+	public boolean verifyIsDataInDescindingOrder(ArrayList<String> data) {
+
+		boolean isDataInDescendingOrder = checkDataInDescendingOrder(data);
+		return isDataInDescendingOrder;
+	}
+
+	/**
+	 * Verify is data in descending order.
+	 *
+	 * @param data the data
+	 * @return true, if successful
+	 */
+	public boolean verifyIsDataInDescindingOrder(Set<String> data) {
+		ArrayList<String> data_AL = new ArrayList<String>(data);
+		boolean isDataInDescendingOrder = checkDataInDescendingOrder(data_AL);
+		return isDataInDescendingOrder;
+	}
+
+	/**
+	 * Verify is data in descending order.
+	 *
+	 * @param data the data
+	 * @return true, if successful
+	 */
+	public boolean verifyIsDataInDescendingOrder(String[] data) {
+
+		ArrayList<String> data_AL = new ArrayList<String>();
+		for (int i = 0; i < data.length; i++)
+			data_AL.add(data[i]);
+
+		boolean isDataInDescendingOrder = checkDataInDescendingOrder(data_AL);
+		return isDataInDescendingOrder;
+	}
+
+	/*
+	 * Drag & Drop, Right Click, Double Click function, Javascript executor -
+	 * sendkeys, Click and send keys, Click, clear send keys, Sorting - Asc and Desc
+	 * order, Table Row Counts, Mousehover actions, Number of elements -
+	 * GetElementCounts or GetElementsSize, LinkText operations, Remove Attribute,
+	 * Total Table Cell, Robot Class,
+	 */
 
 }
