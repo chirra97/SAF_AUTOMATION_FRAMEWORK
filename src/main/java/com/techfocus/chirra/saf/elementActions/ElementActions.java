@@ -1765,8 +1765,6 @@ public class ElementActions {
 		boolean isDataInDescendingOrder = checkDataInDescendingOrder(data_AL);
 		return isDataInDescendingOrder;
 	}
-
-	
 	
 	/*
 	 * Drag & Drop, Right Click, Double Click function, Javascript executor -
