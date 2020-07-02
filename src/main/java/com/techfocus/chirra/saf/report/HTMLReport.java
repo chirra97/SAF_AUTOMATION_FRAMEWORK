@@ -33,7 +33,7 @@ public class HTMLReport {
 	}
 
 	public static void createExtentReport(String htmlReportResultsFolderPath) {
-		
+		System.out.println("htmlReportResultsFolderPath : "+htmlReportResultsFolderPath);
 		if (extent == null) {
 			extent = new ExtentReports(htmlReportResultsFolderPath + "/CSR_SAF_RESULTS" + "_"
 					+ DateTimeWork.getCurrentDateTime() + ".html", true);

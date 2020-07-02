@@ -1,16 +1,9 @@
 package com.techfocus.chirra.saf.test;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.devtools.tethering.model.Accepted;
-import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.safari.SafariDriver;
-
-import com.techfocus.chirra.saf.FWSetup.FWConstants;
 import com.techfocus.chirra.saf.report.WordGenerator;
 
 public class Test_3 {
@@ -31,34 +24,41 @@ public class Test_3 {
 
 		docObj.saveDocumnet();
 	}
-	
-	public static void optionalParmTest(String name, String...number) {
-		System.out.println("name : "+name+", number : "+number.length);
-		
+
+	public static void optionalParmTest(String name, String... number) {
+		System.out.println("name : " + name + ", number : " + number.length);
+
 		System.out.println(number[0]);
-		
+
 		System.out.println(number[1]);
 	}
-	
+
 	public static void main(String[] args) {
-		//optionalParmTest("CSR", "10", "yes");
-		System.setProperty("webdriver.chrome.driver", "C:\\Users\\SureshChirra\\AppData\\Local\\Temp\\Drivers\\chromedriver.exe");
-		WebDriver driver = new ChromeDriver();
-		driver.get("http://google.com");
-		/*
-		 * Actions actObj = new Actions(driver); actObj.sendKeys(Keys.CONTROL, "T");
-		 */
+
+		ArrayList<String> unsortedData = new ArrayList<>();
+		unsortedData.add("BB");
+		unsortedData.add("AA");
+		unsortedData.add("DD");
+		unsortedData.add("CC");
+		System.out.println("unsortedData : " + unsortedData);
+
+		ArrayList<String> orderedData = new ArrayList<String>();
+		orderedData.addAll(unsortedData);
 		
-		((JavascriptExecutor) driver).executeScript("window.open()");
-		ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
+		System.out.println("orderedData : " + orderedData);
 		
-		//driver.switchTo().window(driver.getWindowHandles().toArray()[1].toString());
+		Collections.sort(unsortedData);
 		
-		driver.navigate().to("http://google.com");
+		System.out.println("unsortedData : " + unsortedData);
 		
 		
 		
+		System.out.println(unsortedData.equals(orderedData));
+		
+		
+
+		
+
 	}
 
 }

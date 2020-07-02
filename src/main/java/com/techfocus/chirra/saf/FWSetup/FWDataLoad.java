@@ -1,5 +1,20 @@
 package com.techfocus.chirra.saf.FWSetup;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
 import org.apache.commons.io.FileUtils;
 import org.testng.TestNG;
 import org.w3c.dom.Attr;
@@ -11,22 +26,11 @@ import com.techfocus.chirra.saf.utilities.CustomCode;
 import com.techfocus.chirra.saf.utilities.DateTimeWork;
 import com.techfocus.chirra.saf.utilities.FileDirectoryWork;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public class FWDataLoad {
 
 	/**
+	 * Version : 1.0
+	 * 
 	 * Adds the test and class.
 	 *
 	 * @param doc           the document
@@ -205,19 +209,6 @@ public class FWDataLoad {
 		}
 	}
 
-	private static boolean copyFilesToTempDriversFolder() throws IOException {
-		try {
-			FWConstants.driverPath = CustomCode.getTempFolderPath() + "\\Drivers";
-			File tempDriversFolderPathObj = new File(FWConstants.driverPath);
-			if (!tempDriversFolderPathObj.exists()) {
-				if (new File("Drivers").exists())
-					FileUtils.copyDirectory(new File("Drivers"), new File(FWConstants.driverPath));
-			}
-		} catch (IOException e) {
-		}
-		return true;
-	}
-
 	/**
 	 * Fw execute method.
 	 * 
@@ -237,10 +228,7 @@ public class FWDataLoad {
 
 		// Load ALL Test Data sheets data
 		FWConstants.loadTestDataSheetsData();
-
-		// Copy Drivers folder to Temp folder path
-		copyFilesToTempDriversFolder();
-
+		
 		ArrayList<String> exeData = new ArrayList<String>();
 		for (String key : FWConstants.testDataSheet_data_LHM_LHM.keySet())
 			exeData.add(key);

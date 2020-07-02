@@ -38,10 +38,18 @@ public class CustomCode {
 	}
 
 	public static String getTempFolderPath() {
-		String path = System.getProperty("java.io.tmpdir");
+		//String path = System.getProperty("java.io.tmpdir");
+		String path =  System.getProperty("user.home").toString()+"\\AppData\\Local\\Temp";
 		return path;
 	}
 
+	
+	public static String getDownloadFolderPath() {
+		String home = System.getProperty("user.home").toString();
+		String path =  home+"\\Downloads\\";
+		return path;
+	}
+		
 	public static String encryptText(String value) {
 		try {
 			IvParameterSpec iv = new IvParameterSpec(initVector.getBytes(StandardCharsets.UTF_8));

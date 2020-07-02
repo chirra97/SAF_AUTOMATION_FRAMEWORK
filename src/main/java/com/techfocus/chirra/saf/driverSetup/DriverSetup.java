@@ -210,7 +210,7 @@ public class DriverSetup {
 		if (driverAutoConfig)
 			WebDriverManager.chromedriver().setup();
 		else
-			System.setProperty("webdriver.chrome.driver", FWConstants.driverPath + "\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver", FWConstants.driverPath + "chromedriver.exe");
 
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("start-maximized");

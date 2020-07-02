@@ -19,7 +19,7 @@ public class FWConstants {
 	public static String testDataSheetNames = "";
 	public static String wantToReRunFailedTestCasesOnce = "";
 	
-	public static String driverPath = "";
+	public static String driverPath = "Drivers/";
 
 	/**
 	 * Load config sheet info.

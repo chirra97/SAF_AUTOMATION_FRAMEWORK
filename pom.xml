@@ -5,14 +5,18 @@
 
 	<groupId>com.techfocus</groupId>
 	<artifactId>SeleniumAutomationFramework</artifactId>
-	<version>1.0</version>
+	<version>1.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>Selenium Automation Framework 1.0</name>
 	<description>Selenium Automation Framework</description>
 	<url>https://github.coAutomationm/chirra7/SAF_AUTOMATION_FRAMEWORK</url>
 
-
+	<properties>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 
 	<distributionManagement>
 		<snapshotRepository>
@@ -59,6 +63,12 @@
 					</execution>
 				</executions>
 				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>com.techfocus.chirra.saf.FWSetup.FWEecuteTestNG</mainClass>
+						</manifest>
+					</archive>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
@@ -77,8 +87,8 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.build.directory}/target</outputDirectory>
-							<overWriteReleases>false</overWriteReleases>
-							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteReleases>true</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
 							<overWriteIfNewer>true</overWriteIfNewer>
 						</configuration>
 					</execution>
@@ -312,6 +322,23 @@
 			<version>1.2.17</version>
 		</dependency>
 
+		<dependency>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-htmlunit-driver</artifactId>
+			<version>2.52.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
 
 	</dependencies>
 </project>
