@@ -5,6 +5,7 @@ import com.healthmarketscience.jackcess.DatabaseBuilder;
 import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 public class MSACCESS_DataBaseWork {
@@ -142,6 +143,117 @@ public class MSACCESS_DataBaseWork {
 		}
 		System.out.println("columnNameDataType_LHM : " + columnNameDataType_LHM);
 		return columnNameDataType_LHM;
+	}
+
+	private static Connection DB2_con = null;
+
+	public static boolean DB_Connection(String DB2_hostName, String DB2_port, String DB2_databaseName,
+			String DB2_userName, String DB2_password, int maxAttempts, String dbType) {
+		System.out.println("HostName : " + DB2_hostName + "\n" + "Port : " + DB2_port + "\n" + "DatabaseName : "
+				+ DB2_databaseName + "\n" + "UserName : " + DB2_userName + "\n" + "Password : " + DB2_password + "\n"
+				+ "dbType : " + dbType + "\n");
+
+		boolean DB2_con_status = false;
+		for (int i = 0; i < maxAttempts; i++) {
+			try {
+				if (dbType.contains("DB2") || dbType.contains("DB2_CLAIMS")) {
+					String url = "jdbc:db2://" + DB2_hostName + ":" + DB2_port + "/" + DB2_databaseName;
+					System.out.println("DB URL : " + url);
+					Class.forName("com.ibm.db2.jcc.DB2Driver").newInstance();
+					DB2_con = DriverManager.getConnection(url, DB2_userName, DB2_password);
+					DB2_con_status = true;
+					break;
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				System.out.println("Unable to connect to DataBase...");
+			}
+		}
+		return DB2_con_status;
+	}
+
+	
+
+	static HashMap<String, ArrayList<String>> hm_dbdata = null;
+
+	public static HashMap<String, ArrayList<String>> dbDump(ArrayList<String> db_colNum_uniqueKeyPosition, int len,
+			String sql) throws SQLException {
+
+		Statement stmt = DB2_con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		ArrayList<String> db_colData;
+		hm_dbdata = new HashMap<String, ArrayList<String>>();
+		System.out.println("==> db_colNum_uniqueKeyPosition : " + db_colNum_uniqueKeyPosition);
+
+		while (rs.next()) {
+
+			db_colData = new ArrayList<String>();
+			String hm_key = "";
+			for (int i = 0; i < len; i++) {
+				String temp = "";
+				try {
+					temp = rs.getString(i + 1).trim();
+				} catch (Exception e) {
+					temp = "";
+				}
+				if (db_colNum_uniqueKeyPosition.contains("" + i))
+					hm_key = hm_key + "~" + temp;
+				db_colData.add(temp);
+			}
+
+			hm_key = hm_key.substring(1, hm_key.length());
+			System.out.println("hm Key ===> " + hm_key + " = db_values : " + db_colData);
+			hm_dbdata.put(hm_key, db_colData);
+		}
+		rs.close();
+		return hm_dbdata;
+
+	}
+
+	static ArrayList<String> dbDataDump_AL = null;
+	static String temp = "";
+	static String temp_row = "";
+
+	public static ArrayList<String> dbDataDump(String sql, int len) throws SQLException {
+
+		Statement stmt = DB2_con.createStatement();
+		ResultSet rs = stmt.executeQuery(sql);
+		dbDataDump_AL = new ArrayList<String>();
+		while (rs.next()) {
+			temp_row = "";
+			for (int i = 0; i < len; i++) {
+				temp = "";
+				try {
+					temp = rs.getString(i + 1).trim();
+				} catch (Exception e) {
+					temp = "";
+				}
+				temp_row = temp_row + "~" + temp;
+			}
+			temp_row = temp_row.replaceFirst("~", "");
+			dbDataDump_AL.add(temp_row);
+		}
+		rs.close();
+		return dbDataDump_AL;
+	}
+	
+	public static ArrayList<String> uniqueKeyVsPosition = null;
+
+	public static ArrayList<String> uniqueKeyVsPosition(String fieldnames, String uniquekey) {
+		uniqueKeyVsPosition = new ArrayList<String>();
+		String[] fieldnames_Split = fieldnames.split(",");
+		String[] uniquekey_Split = uniquekey.split(",");
+		ArrayList<String> uniquekey_Split_AL = new ArrayList<String>();
+		for (int i = 0; i < uniquekey_Split.length; i++)
+			uniquekey_Split_AL.add(uniquekey_Split[i].trim());
+
+		for (int i = 0; i < fieldnames_Split.length; i++) {
+			String fieldName = fieldnames_Split[i];
+			if (uniquekey_Split_AL.contains(fieldName.trim())) {
+				uniqueKeyVsPosition.add("" + i);
+			}
+		}
+		return uniqueKeyVsPosition;
 	}
 
 	public static void main(String[] args) throws SQLException {
