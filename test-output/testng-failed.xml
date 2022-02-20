@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Failed suite [Suite]">
-  <test name="TC001">
-    <classes>
-      <class name="in.ibm.chirra.saf.FWSetup.FWEecuteTestNG"/>
-    </classes>
-  </test> <!-- TC001 -->
-</suite> <!-- Failed suite [Suite] -->
